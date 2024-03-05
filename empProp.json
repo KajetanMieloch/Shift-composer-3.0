@@ -1,0 +1,117 @@
+{
+    "_comment": "THIS IS USER PROVIDED DATA",
+    "employees": [
+        {
+            "id": 1,
+            "availability": {
+                "2024-03-04": {
+                    "startHour": 8,
+                    "endHour": 16
+                },
+                "2024-03-05": {
+                    "startHour": null,
+                    "endHour": null
+                },
+                "2024-03-06": {
+                    "startHour": 9,
+                    "endHour": 15
+                },
+                "2024-03-07": {
+                    "startHour": 6,
+                    "endHour": 18
+                },
+                "2024-03-08": {
+                    "startHour": 7,
+                    "endHour": 16
+                },
+                "2024-03-09": {
+                    "startHour": 8,
+                    "endHour": 17
+                },
+                "2024-03-10": {
+                    "startHour": 6,
+                    "endHour": 18
+                },
+                "2024-03-11": {
+                    "startHour": 9,
+                    "endHour": 15
+                }
+            }
+        },
+        {
+            "id": 2,
+            "availability": {
+                "2024-03-04": {
+                    "startHour": 8,
+                    "endHour": 16
+                },
+                "2024-03-05": {
+                    "startHour": null,
+                    "endHour": null
+                },
+                "2024-03-06": {
+                    "startHour": 9,
+                    "endHour": 15
+                },
+                "2024-03-07": {
+                    "startHour": 6,
+                    "endHour": 18
+                },
+                "2024-03-08": {
+                    "startHour": 7,
+                    "endHour": 16
+                },
+                "2024-03-09": {
+                    "startHour": null,
+                    "endHour": null
+                },
+                "2024-03-10": {
+                    "startHour": 6,
+                    "endHour": 18
+                },
+                "2024-03-11": {
+                    "startHour": 9,
+                    "endHour": 15
+                }
+            }
+        },
+        {
+            "id": 3,
+            "availability": {
+                "2024-03-04": {
+                    "startHour": null,
+                    "endHour": null
+                },
+                "2024-03-05": {
+                    "startHour": null,
+                    "endHour": null
+                },
+                "2024-03-06": {
+                    "startHour": 9,
+                    "endHour": 15
+                },
+                "2024-03-07": {
+                    "startHour": 6,
+                    "endHour": 18
+                },
+                "2024-03-08": {
+                    "startHour": 7,
+                    "endHour": 16
+                },
+                "2024-03-09": {
+                    "startHour": 8,
+                    "endHour": 17
+                },
+                "2024-03-10": {
+                    "startHour": 6,
+                    "endHour": 18
+                },
+                "2024-03-11": {
+                    "startHour": 9,
+                    "endHour": 15
+                }
+            }
+        }
+    ]
+}
+    

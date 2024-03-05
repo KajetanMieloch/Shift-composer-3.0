@@ -1,0 +1,23 @@
+{
+"_comment": "THIS IS USER PROVIDED DATA",
+  "employees": [
+    {
+      "id": 1,
+      "name": "John",
+      "surname": "Doe",
+      "department": ["HR"]
+    },
+    {
+      "id": 2,
+      "name": "Jane",
+      "surname": "Smith",
+      "department": ["HR"]
+    },
+    {
+      "id": 3,
+      "name": "Mike",
+      "surname": "Johnson",
+      "department": ["HR"]
+    }
+  ]
+}
