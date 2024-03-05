@@ -24,7 +24,14 @@
                         "to": "14:00"
                     }
                 ],
-                "worksOverDays": true
+                "minEmployeeWorkHours": 6,
+                "maxEmployeeWorkHours": 8,
+                "shifts": [
+                    {
+                        "from": null,
+                        "to": null
+                    }
+                ]
             },
             {
                 "name": "IT",
@@ -44,27 +51,41 @@
                         "to": "16:00"
                     }
                 ],
-                "worksOverDays": false
+                "minEmployeeWorkHours": 6,
+                "maxEmployeeWorkHours": 8,
+                "shifts": [
+                    {
+                        "from": null,
+                        "to": null
+                    }
+                ]
             },
             {
-                "name": "ACCOUNTINGS",
-                "minEmployees": 3,
-                "maxEmployees": 7,
+                "name": "SECURITY",
+                "minEmployees": 1,
+                "maxEmployees": 2,
                 "workHours": {
-                    "from": "09:30",
-                    "to": "17:30"
+                    "from": "00:00",
+                    "to": "00:00"
                 },
                 "priorityHours": [
                     {
-                        "from": "11:00",
-                        "to": "13:00"
-                    },
-                    {
                         "from": "15:00",
-                        "to": "17:00"
+                        "to": "07:00"
                     }
                 ],
-                "worksOverDays": true
+                "minEmployeeWorkHours": 8,
+                "maxEmployeeWorkHours": 8,
+                "shifts": [
+                    {
+                        "from": "15:00",
+                        "to": "23:00"
+                    },
+                    {
+                        "from": "23:00",
+                        "to": "7:00"
+                    }
+                ]
             }
         ]
     }
