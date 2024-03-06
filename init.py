@@ -6,6 +6,17 @@ class Employee:
         self.name = name
         self.surname = surname
         self.department = department
+    
+    def get_id(self):
+        return self.id
+    
+    def get_all_info(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "surname": self.surname,
+            "department": self.department
+        }
 
 class EmployeeAvailability:
     def __init__(self, id, employeesAva):

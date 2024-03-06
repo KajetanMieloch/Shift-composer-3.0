@@ -1,5 +1,6 @@
 import os
 import json
+from init import *
 
 class Loader:
     def __init__(self):
@@ -18,10 +19,12 @@ class Loader:
         self.schedule_prop_data = self.data['scheduleProp.json']
 
     def get_all_emp_data(self):
-        return self.all_emp_data
+        return self.all_emp_data.get('employees')
 
     def get_emp_prop_data(self):
         return self.emp_prop_data
 
     def get_schedule_prop_data(self):
         return self.schedule_prop_data
+
+
