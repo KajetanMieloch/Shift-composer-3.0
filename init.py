@@ -8,9 +8,20 @@ class Employee:
         self.department = department
 
 class EmployeeAvailability:
-    def __init__(self, id, availability):
+    def __init__(self, id, employeesAva):
         self.id = id
-        self.availability = availability
+        self.availability = []
+        for employee in employeesAva:
+            employee_availability = {
+                "id": employee["id"],
+                "availability": {}
+            }
+            for date, hours in employee["availability"].items():
+                employee_availability["availability"][date] = {
+                    "startHour": hours["startHour"],
+                    "endHour": hours["endHour"]
+                }
+            self.availability.append(employee_availability)
 
 class ScheduleProperties:
     def __init__(self, date, departments):
