@@ -124,4 +124,23 @@ class ScheduleProperties:
         for dep in self.data["departments"]:
             if dep["name"] == department:
                 return dep["maxEmployees"]
+        
+    def get_max_consecutive_work_days_for_department(self, department):
+        for dep in self.data["departments"]:
+            if dep["name"] == department:
+                return dep["maxConsecutiveWorkDays"]
     
+    def get_work_hours_for_department(self, department):
+        for dep in self.data["departments"]:
+            if dep["name"] == department:
+                return dep["workHours"]
+        
+    def get_priority_hours_for_department(self, department):
+        for dep in self.data["departments"]:
+            if dep["name"] == department:
+                return dep["priorityHours"]
+    
+    def get_shifts_for_department(self, department):
+        for dep in self.data["departments"]:
+            if dep["name"] == department:
+                return dep["shifts"]

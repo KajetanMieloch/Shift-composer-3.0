@@ -71,7 +71,11 @@
                     }                   
                 },
                 "minEmployeeWorkHours": 6,
-                "maxEmployeeWorkHours": 8
+                "maxEmployeeWorkHours": 8,
+                "maxConsecutiveWorkDays": 5,
+                "shifts": {
+
+                }
             },
             {
                 "name": "IT",
@@ -138,10 +142,14 @@
                     }                   
                 },
                 "minEmployeeWorkHours": 6,
-                "maxEmployeeWorkHours": 8
+                "maxEmployeeWorkHours": 8,
+                "maxConsecutiveWorkDays": 5,
+                "shifts": {
+                    
+                }
             },
             {
-                "name": "SECURITY",
+                "name": "Security",
                 "minEmployees": 1,
                 "maxEmployees": 2,
                 "workHours": {
@@ -205,7 +213,45 @@
                     }                   
                 },
                 "minEmployeeWorkHours": 8,
-                "maxEmployeeWorkHours": 8
+                "maxEmployeeWorkHours": 8,
+                "maxConsecutiveWorkDays": 5,
+                "shifts": {
+                    "monday": {
+                        "start": "15:00",
+                        "Duration": 8,
+                        "shifts": 2
+                    },
+                    "tuesday": {
+                        "start": "15:00",
+                        "Duration": 8,
+                        "shifts": 2
+                    },
+                    "wednesday": {
+                        "start": "15:00",
+                        "Duration": 8,
+                        "shifts": 2
+                    },
+                    "thursday": {
+                        "start": "15:00",
+                        "Duration": 8,
+                        "shifts": 2
+                    },
+                    "friday": {
+                        "start": "15:00",
+                        "Duration": 8,
+                        "shifts": 2
+                    },
+                    "saturday": {
+                        "start": "07:00",
+                        "Duration": 8,
+                        "shifts": 3
+                    },
+                    "sunday": {
+                        "start": "07:00",
+                        "Duration": 8,
+                        "shifts": 3
+                    }
+                }
             }
         ]
     }
