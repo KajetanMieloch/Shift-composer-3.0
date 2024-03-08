@@ -1,6 +1,16 @@
 from datetime import datetime
 
-
+class EmployeesAndAvailability:
+    def __init__(self, employees):
+        self.employees = []
+        for employee in employees:
+            self.employees.append(Employee(employee["id"], employee["name"], employee["surname"], employee["department"]))
+    
+    def get_name_by_id(self, id):
+        for employee in self.employees:
+            if employee.get_id() == id:
+                return employee.name
+        return None
 
 class Employee:
     def __init__(self, id, name, surname, department):
@@ -8,6 +18,10 @@ class Employee:
         self.name = name
         self.surname = surname
         self.department = department
+        self.last_shift = None
+        self.worked_hours = 0
+        self.shifts = []
+        self.availability = []
     
     def get_id(self):
         return self.id
@@ -35,6 +49,12 @@ class EmployeeAvailability:
                     "endHour": hours["endHour"]
                 }
             self.availability.append(employee_availability)
+
+    def get_availability(self):
+        for employee in self.availability:
+            if employee["id"] == self.id:
+                return employee["availability"]
+        return None
 
 class ScheduleProperties:
     def __init__(self, date, departments):

@@ -22,7 +22,7 @@ class Loader:
         return self.all_employeesloyees_data.get('employees')
 
     def get_employees_properties_data(self):
-        return self.employees_properties_data
+        return self.employees_properties_data.get("employeesAva")
 
     def get_schedule_properties_data(self):
         return self.schedule_properties_data
