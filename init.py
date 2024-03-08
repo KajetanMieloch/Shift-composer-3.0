@@ -1,8 +1,22 @@
 from datetime import datetime
 
 class EmployeesAndAvailability:
-    def __init__(self, employees):
+    def __init__(self, employees, employeesAva):
         self.employees = []
+        self.availability = []
+        for employee in employeesAva:
+            employee_availability = {
+                "id": employee["id"],
+                "availability": {}
+            }
+            for date, hours in employee["availability"].items():
+                employee_availability["availability"][date] = {
+                    "startHour": hours["startHour"],
+                    "endHour": hours["endHour"]
+                }
+            self.availability.append(employee_availability)
+        
+        # Create employees list
         for employee in employees:
             self.employees.append(Employee(employee["id"], employee["name"], employee["surname"], employee["department"]))
     
@@ -10,6 +24,12 @@ class EmployeesAndAvailability:
         for employee in self.employees:
             if employee.get_id() == id:
                 return employee.name
+        return None
+    
+    def get_schedule_by_id(self, id):
+        for employee in self.employees:
+            if employee.get_id() == id:
+                return employee.shifts
         return None
 
 class Employee:
@@ -33,28 +53,6 @@ class Employee:
             "surname": self.surname,
             "department": self.department
         }
-
-class EmployeeAvailability:
-    def __init__(self, id, employeesAva):
-        self.id = id
-        self.availability = []
-        for employee in employeesAva:
-            employee_availability = {
-                "id": employee["id"],
-                "availability": {}
-            }
-            for date, hours in employee["availability"].items():
-                employee_availability["availability"][date] = {
-                    "startHour": hours["startHour"],
-                    "endHour": hours["endHour"]
-                }
-            self.availability.append(employee_availability)
-
-    def get_availability(self):
-        for employee in self.availability:
-            if employee["id"] == self.id:
-                return employee["availability"]
-        return None
 
 class ScheduleProperties:
     def __init__(self, date, departments):
