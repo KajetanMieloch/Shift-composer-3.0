@@ -20,18 +20,37 @@ class EmployeesAndAvailability:
         for employee in employees:
             self.employees.append(Employee(employee["id"], employee["name"], employee["surname"], employee["department"]))
     
-    def get_name_by_id(self, id):
+    def get_employee_by_id(self, id):
         for employee in self.employees:
             if employee.get_id() == id:
-                return employee.name
+                return employee
         return None
     
-    def get_schedule_by_id(self, id):
-        for employee in self.employees:
-            if employee.get_id() == id:
-                return employee.shifts
+    def get_employee_availability_by_id(self, id):
+        for employee in self.availability:
+            if employee["id"] == id:
+                return employee["availability"]
         return None
+    
+    def get_employee_availability_by_date(self, id, date):
+        for employee in self.availability:
+            if employee["id"] == id:
+                return employee["availability"][date]
+        return None
+    
+    def get_all_employees_availability_by_date(self, date):
+        employees_availability = []
+        for employee in self.employees:
+            employees_availability.append(self.get_employee_availability_by_date(employee.get_id(), date))
+        return employees_availability
 
+    def get_all_employees_availability_by_date_department(self, date, department):
+        employees_availability = []
+        for employee in self.employees:
+            if department in employee.get_department():
+                employees_availability.append(self.get_employee_availability_by_date(employee.get_id(), date))
+        return employees_availability
+                
 class Employee:
     def __init__(self, id, name, surname, department):
         self.id = id
@@ -46,13 +65,27 @@ class Employee:
     def get_id(self):
         return self.id
     
-    def get_all_info(self):
-        return {
-            "id": self.id,
-            "name": self.name,
-            "surname": self.surname,
-            "department": self.department
-        }
+    def get_name(self):
+        return self.name
+    
+    def get_surname(self):
+        return self.surname
+    
+    def get_department(self):
+        return self.department
+    
+    def get_last_shift(self):
+        return self.last_shift
+    
+    def get_worked_hours(self):
+        return self.worked_hours
+    
+    def get_shifts(self):
+        return self.shifts
+    
+    def get_availability(self):
+        return self.availability
+
 
 class ScheduleProperties:
     def __init__(self, date, departments):
