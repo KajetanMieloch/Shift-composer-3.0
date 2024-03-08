@@ -11,81 +11,201 @@
                 "minEmployees": 1,
                 "maxEmployees": 1,
                 "workHours": {
-                    "from": "09:00",
-                    "to": "15:00"
+                    "monday": {
+                        "from": "09:00",
+                        "to": "15:00"
+                    },
+                    "tuesday": {
+                        "from": "09:00",
+                        "to": "15:00"
+                    },
+                    "wednesday": {
+                        "from": "09:00",
+                        "to": "15:00"
+                    },
+                    "thursday": {
+                        "from": "09:00",
+                        "to": "15:00"
+                    },
+                    "friday": {
+                        "from": "09:00",
+                        "to": "15:00"
+                    },
+                    "saturday": {
+                        "from": "00:00",
+                        "to": "00:00"
+                    },
+                    "sunday": {
+                        "from": "00:00",
+                        "to": "00:00"
+                    }
                 },
-                "priorityHours": [
-                    {
+                "priorityHours": {
+                    "monday":{
                         "from": "09:00",
                         "to": "11:00"
                     },
-                    {
-                        "from": "13:00",
-                        "to": "14:00"
-                    }
-                ],
+                    "tuesday":{
+                        "from": "09:00",
+                        "to": "11:00"
+                    },
+                    "wednesday":{
+                        "from": "09:00",
+                        "to": "11:00"
+                    },
+                    "thursday":{
+                        "from": "09:00",
+                        "to": "11:00"
+                    },
+                    "friday":{
+                        "from": "09:00",
+                        "to": "11:00"
+                    },
+                    "saturday":{
+                        "from": "00:00",
+                        "to": "00:00"
+                    },
+                    "sunday":{
+                        "from": "00:00",
+                        "to": "00:00"
+                    }                   
+                },
                 "minEmployeeWorkHours": 6,
-                "maxEmployeeWorkHours": 8,
-                "shifts": [
-                    {
-                        "from": null,
-                        "to": null
-                    }
-                ]
+                "maxEmployeeWorkHours": 8
             },
             {
                 "name": "IT",
                 "minEmployees": 2,
                 "maxEmployees": 5,
                 "workHours": {
-                    "from": "08:00",
-                    "to": "16:00"
-                },
-                "priorityHours": [
-                    {
-                        "from": "10:00",
-                        "to": "12:00"
+                    "monday": {
+                        "from": "09:00",
+                        "to": "17:00"
                     },
-                    {
-                        "from": "14:00",
-                        "to": "16:00"
+                    "tuesday": {
+                        "from": "09:00",
+                        "to": "17:00"
+                    },
+                    "wednesday": {
+                        "from": "09:00",
+                        "to": "17:00"
+                    },
+                    "thursday": {
+                        "from": "09:00",
+                        "to": "17:00"
+                    },
+                    "friday": {
+                        "from": "09:00",
+                        "to": "17:00"
+                    },
+                    "saturday": {
+                        "from": "00:00",
+                        "to": "00:00"
+                    },
+                    "sunday": {
+                        "from": "00:00",
+                        "to": "00:00"
                     }
-                ],
+                },
+                "priorityHours": {
+                    "monday":{
+                        "from": "09:00",
+                        "to": "11:00"
+                    },
+                    "tuesday":{
+                        "from": "09:00",
+                        "to": "11:00"
+                    },
+                    "wednesday":{
+                        "from": "09:00",
+                        "to": "11:00"
+                    },
+                    "thursday":{
+                        "from": "09:00",
+                        "to": "11:00"
+                    },
+                    "friday":{
+                        "from": "09:00",
+                        "to": "11:00"
+                    },
+                    "saturday":{
+                        "from": "00:00",
+                        "to": "00:00"
+                    },
+                    "sunday":{
+                        "from": "00:00",
+                        "to": "00:00"
+                    }                   
+                },
                 "minEmployeeWorkHours": 6,
-                "maxEmployeeWorkHours": 8,
-                "shifts": [
-                    {
-                        "from": null,
-                        "to": null
-                    }
-                ]
+                "maxEmployeeWorkHours": 8
             },
             {
                 "name": "SECURITY",
                 "minEmployees": 1,
                 "maxEmployees": 2,
                 "workHours": {
-                    "from": "00:00",
-                    "to": "00:00"
-                },
-                "priorityHours": [
-                    {
-                        "from": "15:00",
-                        "to": "07:00"
-                    }
-                ],
-                "minEmployeeWorkHours": 8,
-                "maxEmployeeWorkHours": 8,
-                "shifts": [
-                    {
-                        "from": "15:00",
-                        "to": "23:00"
+                    "monday": {
+                        "from": "09:00",
+                        "to": "17:00"
                     },
-                    {
-                        "from": "23:00",
-                        "to": "7:00"
+                    "tuesday": {
+                        "from": "09:00",
+                        "to": "17:00"
+                    },
+                    "wednesday": {
+                        "from": "09:00",
+                        "to": "17:00"
+                    },
+                    "thursday": {
+                        "from": "09:00",
+                        "to": "17:00"
+                    },
+                    "friday": {
+                        "from": "09:00",
+                        "to": "17:00"
+                    },
+                    "saturday": {
+                        "from": "00:00",
+                        "to": "00:00"
+                    },
+                    "sunday": {
+                        "from": "00:00",
+                        "to": "00:00"
                     }
-                ]
+                },
+                "priorityHours": {
+                    "monday":{
+                        "from": "09:00",
+                        "to": "11:00"
+                    },
+                    "tuesday":{
+                        "from": "09:00",
+                        "to": "11:00"
+                    },
+                    "wednesday":{
+                        "from": "09:00",
+                        "to": "11:00"
+                    },
+                    "thursday":{
+                        "from": "09:00",
+                        "to": "11:00"
+                    },
+                    "friday":{
+                        "from": "09:00",
+                        "to": "11:00"
+                    },
+                    "saturday":{
+                        "from": "00:00",
+                        "to": "00:00"
+                    },
+                    "sunday":{
+                        "from": "00:00",
+                        "to": "00:00"
+                    }                   
+                },
+                "minEmployeeWorkHours": 8,
+                "maxEmployeeWorkHours": 8
             }
         ]
     }

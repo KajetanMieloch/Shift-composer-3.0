@@ -50,6 +50,13 @@ class EmployeesAndAvailability:
             if department in employee.get_department():
                 employees_availability.append(self.get_employee_availability_by_date(employee.get_id(), date))
         return employees_availability
+    
+    def get_all_employees_availability_by_department(self, department):
+        employees_availability = []
+        for employee in self.employees:
+            if department in employee.get_department():
+                employees_availability.append(self.get_employee_availability_by_id(employee.get_id()))
+        return employees_availability
                 
 class Employee:
     def __init__(self, id, name, surname, department):
@@ -88,22 +95,33 @@ class Employee:
 
 
 class ScheduleProperties:
-    def __init__(self, date, departments):
-        self.date_from = datetime.strptime(date["from"], "%Y-%m-%d").date()
-        self.date_to = datetime.strptime(date["to"], "%Y-%m-%d").date()
-        self.departments = []
-        for dept in departments:
-            department = {
-                "name": dept["name"],
-                "minEmployees": dept["minEmployees"],
-                "maxEmployees": dept["maxEmployees"],
-                "workHours": {
-                    "from": dept["workHours"]["from"],
-                    "to": dept["workHours"]["to"]
-                },
-                "priorityHours": dept["priorityHours"],
-                "minEmployeeWorkHours": dept["minEmployeeWorkHours"],
-                "maxEmployeeWorkHours": dept["maxEmployeeWorkHours"],
-                "shifts": dept["shifts"]
-            }
-            self.departments.append(department)
+    def __init__(self, data):
+        self.data = data
+
+    def get_properties(self):
+        return self.data
+    
+    def get_date(self):
+        return self.data["date"]
+
+    def get_start_date(self):
+        return self.data["date"]["from"]
+
+    def get_end_date(self):
+        return self.data["date"]["to"]
+    
+    def get_properties_for_department(self, department):
+       for dep in self.data["departments"]:
+           if dep["name"] == department:
+               return dep
+   
+    def get_minEmployees_for_department(self, department):
+        for dep in self.data["departments"]:
+            if dep["name"] == department:
+                return dep["minEmployees"]
+    
+    def get_maxEmployees_for_department(self, department):
+        for dep in self.data["departments"]:
+            if dep["name"] == department:
+                return dep["maxEmployees"]
+    
