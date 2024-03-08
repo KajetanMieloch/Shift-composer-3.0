@@ -5,7 +5,7 @@ from init import *
 class Loader:
     def __init__(self):
         self.folder_path = 'userData'
-        self.file_names = ['allEmp.json', 'empProp.json', 'scheduleProp.json']
+        self.file_names = ['allemployees.json', 'employeesproperties.json', 'scheduleproperties.json']
         self.data = {}
 
         for file_name in self.file_names:
@@ -14,17 +14,17 @@ class Loader:
                 self.data[file_name] = json.load(file)
 
         # Access the loaded JSON data
-        self.all_emp_data = self.data['allEmp.json']
-        self.emp_prop_data = self.data['empProp.json']
-        self.schedule_prop_data = self.data['scheduleProp.json']
+        self.all_employeesloyees_data = self.data['allemployees.json']
+        self.employees_properties_data = self.data['employeesproperties.json']
+        self.schedule_properties_data = self.data['scheduleproperties.json']
 
-    def get_all_emp_data(self):
-        return self.all_emp_data.get('employees')
+    def get_all_employeesloyees_data(self):
+        return self.all_employeesloyees_data.get('employees')
 
-    def get_emp_prop_data(self):
-        return self.emp_prop_data
+    def get_employees_properties_data(self):
+        return self.employees_properties_data
 
-    def get_schedule_prop_data(self):
-        return self.schedule_prop_data
+    def get_schedule_properties_data(self):
+        return self.schedule_properties_data
 
 

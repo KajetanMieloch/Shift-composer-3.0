@@ -6,7 +6,7 @@ def main():
 
     # Create an instance of the Employee class
     employees = []
-    for emp in data_loader.get_all_emp_data():
+    for emp in data_loader.get_all_employeesloyees_data():
         employees.append(init.Employee(emp["id"], emp["name"], emp["surname"], emp["department"]))
     
     for emp in employees:
