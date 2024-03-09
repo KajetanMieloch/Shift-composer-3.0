@@ -52,6 +52,7 @@ def main():
 
     generator = gen.Generator(sheduleProperties.get_start_date(), sheduleProperties.get_end_date())
 
+    generator.generate_harmonogram(sheduleProperties.get_work_hours_for_department("HR"))
 
 if __name__ == "__main__":
     main()

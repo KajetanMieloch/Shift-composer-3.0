@@ -12,8 +12,8 @@
                 "maxEmployees": 1,
                 "workHours": {
                     "monday": {
-                        "from": "09:00",
-                        "to": "15:00"
+                        "from": "18:00",
+                        "to": "01:00"
                     },
                     "tuesday": {
                         "from": "09:00",
@@ -32,12 +32,12 @@
                         "to": "15:00"
                     },
                     "saturday": {
-                        "from": "00:00",
-                        "to": "00:00"
+                        "from": "None",
+                        "to": "None"
                     },
                     "sunday": {
-                        "from": "00:00",
-                        "to": "00:00"
+                        "from": "None",
+                        "to": "None"
                     }
                 },
                 "priorityHours": {
@@ -62,12 +62,12 @@
                         "to": "11:00"
                     },
                     "saturday":{
-                        "from": "00:00",
-                        "to": "00:00"
+                        "from": "None",
+                        "to": "None"
                     },
                     "sunday":{
-                        "from": "00:00",
-                        "to": "00:00"
+                        "from": "None",
+                        "to": "None"
                     }                   
                 },
                 "minEmployeeWorkHours": 6,
@@ -103,12 +103,12 @@
                         "to": "17:00"
                     },
                     "saturday": {
-                        "from": "00:00",
-                        "to": "00:00"
+                        "from": "None",
+                        "to": "None"
                     },
                     "sunday": {
-                        "from": "00:00",
-                        "to": "00:00"
+                        "from": "None",
+                        "to": "None"
                     }
                 },
                 "priorityHours": {
@@ -133,12 +133,12 @@
                         "to": "11:00"
                     },
                     "saturday":{
-                        "from": "00:00",
-                        "to": "00:00"
+                        "from": "None",
+                        "to": "None"
                     },
                     "sunday":{
-                        "from": "00:00",
-                        "to": "00:00"
+                        "from": "None",
+                        "to": "None"
                     }                   
                 },
                 "minEmployeeWorkHours": 6,
