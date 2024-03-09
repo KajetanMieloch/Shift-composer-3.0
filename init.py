@@ -144,3 +144,5 @@ class ScheduleProperties:
         for dep in self.data["departments"]:
             if dep["name"] == department:
                 return dep["shifts"]
+            
+    
