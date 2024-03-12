@@ -50,12 +50,11 @@ def main():
     # Generator
     ##############################################################
 
-    generator = gen.Generator(sheduleProperties.get_start_date(), sheduleProperties.get_end_date())
+    generator = gen.Generator(employeesAndAvailability, sheduleProperties)
 
-    harmonogram = generator.generate_harmonogram(sheduleProperties.get_work_hours_for_department("HR"))
+    harmonogram = generator.generate_harmonogram(sheduleProperties.get_work_hours_for_department("HR"), "HR")
     for h in harmonogram:
         print(h.get_harmonogram())
-    
 
 if __name__ == "__main__":
     main()

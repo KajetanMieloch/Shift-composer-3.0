@@ -26,6 +26,7 @@ class EmployeesAndAvailability:
                 return employee
         return None
     
+    ###### Availability (non-obj) ######    
     def get_employee_availability_by_id(self, id):
         for employee in self.availability:
             if employee["id"] == id:
@@ -35,7 +36,7 @@ class EmployeesAndAvailability:
     def get_employee_availability_by_date(self, id, date):
         for employee in self.availability:
             if employee["id"] == id:
-                return employee["availability"][date]
+                return employee["availability"].get(date)
         return None
     
     def get_all_employees_availability_by_date(self, date):
@@ -57,7 +58,8 @@ class EmployeesAndAvailability:
             if department in employee.get_department():
                 employees_availability.append(self.get_employee_availability_by_id(employee.get_id()))
         return employees_availability
-                
+    
+
 class Employee:
     def __init__(self, id, name, surname, department):
         self.id = id
@@ -89,9 +91,6 @@ class Employee:
     
     def get_shifts(self):
         return self.shifts
-    
-    def get_availability(self):
-        return self.availability
 
 
 class ScheduleProperties:
