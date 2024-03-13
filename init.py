@@ -1,7 +1,10 @@
 from datetime import datetime
 
 class EmployeesAndAvailability:
-    def __init__(self, employees, employeesAva):
+    def __init__(self, employees, employeesAva, dataForSchedule):
+
+        self.weekdays = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
+
         self.employees = []
         self.availability = []
         for employee in employeesAva:
@@ -19,10 +22,53 @@ class EmployeesAndAvailability:
         # Create employees list
         for employee in employees:
             self.employees.append(Employee(employee["id"], employee["name"], employee["surname"], employee["department"]))
-    
+            employeeObj = self.get_employee_obj_by_id(employee["id"])
+            employeeObj.set_availability(self.get_employee_availability_by_id(employee["id"]))
+
+        self.dataForSchedule = dataForSchedule
+        schedule_properties = ScheduleProperties(dataForSchedule)
+
+        # This code is very important, it sets how many hours every employee is available
+        # This number will determine priority of employee
+        # The code is first geting employe then his whole availability and then it calculates how many hours he is available
+        # This is not obvious, becouse is employee is avabile outside of work hours, it will not be counted
+        # Also if employee is available all day, it will be counted as department work hours
+        # If employee is not available at all, it will be counted as 0
+
+        for employee in employees:
+            work_hours = 0
+            employeeObj = self.get_employee_obj_by_id(employee["id"])
+
+            # get weekday from date
+            for date, emp_hours in employeeObj.get_availability().items():
+                work_day = datetime.strptime(date, "%Y-%m-%d").weekday()
+                for department in employeeObj.get_department():
+                    work_hours = schedule_properties.get_work_hours_for_department(department)
+                    work_hours_by_day = work_hours.get(self.weekdays[work_day])
+
+                    if emp_hours.get("startHour") != "None" and emp_hours.get("endHour") != "None" and work_hours_by_day.get("from") != "None" and work_hours_by_day.get("to") != "None":
+                        if emp_hours.get("startHour") == "All" and emp_hours.get("endHour") == "All":
+                            start_hour = work_hours_by_day["from"]
+                            end_hour = work_hours_by_day["to"]
+                        
+                        else:
+                            if emp_hours.get("startHour") < work_hours_by_day["from"]:
+                                start_hour = work_hours_by_day["from"]
+                            else:
+                                start_hour = emp_hours.get("startHour")
+
+                            if emp_hours.get("endHour") > work_hours_by_day["to"]:
+                                end_hour = work_hours_by_day["to"]
+                            else:
+                                end_hour = emp_hours.get("endHour")
+                    else:
+                        start_hour = "None"
+                        end_hour = "None"
+                    
+                    print(start_hour, end_hour)
+                    #TODO: Count how many hours employee is avabile and then add then thougether, at the end sing value to employe object
 
 ###### This methods returns Object of Employee ######
-
     def get_employee_obj_by_id(self, id):
         for employee in self.employees:
             if employee.get_id() == id:
@@ -40,7 +86,7 @@ class EmployeesAndAvailability:
         employees = []
         for employee in self.employees:
             if department in employee.get_department() and self.get_employee_availability_by_date(employee.get_id(), date):
-                if self.get_employee_availability_by_date(employee.get_id(), date).get("startHour") != None and self.get_employee_availability_by_date(employee.get_id(), date).get("endHour") != None:
+                if self.get_employee_availability_by_date(employee.get_id(), date).get("startHour") != "None" and self.get_employee_availability_by_date(employee.get_id(), date).get("endHour") != "None":
                     employees.append(employee)
         return employees
 
@@ -85,11 +131,21 @@ class Employee:
         self.name = name
         self.surname = surname
         self.department = department
+        self.availability = []
+        self.hours_of_availability = 0
         self.last_shift = None
         self.worked_hours = 0
         self.shifts = []
-        self.availability = []
     
+    def set_availability(self, availability):
+        self.availability = availability
+    
+    def get_availability(self):
+        return self.availability
+    
+    def set_hours_of_availability(self, hours_of_availability):
+        self.hours_of_availability = hours_of_availability
+
     def get_id(self):
         return self.id
     
@@ -162,5 +218,3 @@ class ScheduleProperties:
         for dep in self.data["departments"]:
             if dep["name"] == department:
                 return dep["shifts"]
-            
-    
