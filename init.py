@@ -20,13 +20,32 @@ class EmployeesAndAvailability:
         for employee in employees:
             self.employees.append(Employee(employee["id"], employee["name"], employee["surname"], employee["department"]))
     
-    def get_employee_by_id(self, id):
+
+###### This methods returns Object of Employee ######
+
+    def get_employee_obj_by_id(self, id):
         for employee in self.employees:
             if employee.get_id() == id:
                 return employee
         return None
     
-    ###### Availability (non-obj) ######    
+    def get_employees_obj_by_date(self, date):
+        employees = []
+        for employee in self.employees:
+            if self.get_employee_availability_by_date(employee.get_id(), date):
+                employees.append(employee)
+        return employees
+    
+    def get_employees_obj_by_date_department(self, date, department):
+        employees = []
+        for employee in self.employees:
+            if department in employee.get_department() and self.get_employee_availability_by_date(employee.get_id(), date):
+                if self.get_employee_availability_by_date(employee.get_id(), date).get("startHour") != None and self.get_employee_availability_by_date(employee.get_id(), date).get("endHour") != None:
+                    employees.append(employee)
+        return employees
+
+###### This methods returns Dicts of Employees availabilityes ######      
+
     def get_employee_availability_by_id(self, id):
         for employee in self.availability:
             if employee["id"] == id:
@@ -39,25 +58,25 @@ class EmployeesAndAvailability:
                 return employee["availability"].get(date)
         return None
     
-    def get_all_employees_availability_by_date(self, date):
-        employees_availability = []
-        for employee in self.employees:
-            employees_availability.append(self.get_employee_availability_by_date(employee.get_id(), date))
-        return employees_availability
+    # def get_all_employees_availability_by_date(self, date):
+    #     employees_availability = []
+    #     for employee in self.employees:
+    #         employees_availability.append(self.get_employee_availability_by_date(employee.get_id(), date))
+    #     return employees_availability
 
-    def get_all_employees_availability_by_date_department(self, date, department):
-        employees_availability = []
-        for employee in self.employees:
-            if department in employee.get_department():
-                employees_availability.append(self.get_employee_availability_by_date(employee.get_id(), date))
-        return employees_availability
+    # def get_all_employees_availability_by_date_department(self, date, department):
+    #     employees_availability = []
+    #     for employee in self.employees:
+    #         if department in employee.get_department():
+    #             employees_availability.append(self.get_employee_availability_by_date(employee.get_id(), date))
+    #     return employees_availability
     
-    def get_all_employees_availability_by_department(self, department):
-        employees_availability = []
-        for employee in self.employees:
-            if department in employee.get_department():
-                employees_availability.append(self.get_employee_availability_by_id(employee.get_id()))
-        return employees_availability
+    # def get_all_employees_availability_by_department(self, department):
+    #     employees_availability = []
+    #     for employee in self.employees:
+    #         if department in employee.get_department():
+    #             employees_availability.append(self.get_employee_availability_by_id(employee.get_id()))
+    #     return employees_availability
     
 
 class Employee:

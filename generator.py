@@ -23,13 +23,23 @@ class Generator:
             return True
         return False
 
-    def generate_harmonogram(self, work_data, department):
+    def generate_harmonogram_phase_0(self, work_data, department):
+        """
+        Generates a harmonogram based on the provided work data and department.
+
+        Args:
+            work_data (dict): A dictionary containing work data for each weekday.
+            department (str): The department for which the harmonogram is generated.
+
+        Returns:
+            list: A list of Harmonogram objects representing the generated harmonogram.
+        """
         dates = self.dates_between(self.start_date, self.end_date)
         indx = -1
         for date in dates:
             indx += 1
 
-            employees = self.employeesAndAvailability.get_all_employees_availability_by_date_department(date.strftime("%Y-%m-%d"), department)
+            employees = self.employeesAndAvailability.get_employees_obj_by_date_department(date.strftime("%Y-%m-%d"), department)
 
             self.harmonogramOBJ = Harmonogram(indx)
 
@@ -53,7 +63,7 @@ class Generator:
 
             self.harmonograms.append(self.harmonogramOBJ)
         return self.harmonograms
-
+    
 class Harmonogram:
     def __init__(self, indx):
         self.indx = indx
