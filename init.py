@@ -85,13 +85,6 @@ class EmployeesAndAvailability:
                 return employee
         return None
     
-    # def get_employees_obj_by_date(self, date):
-    #     employees = []
-    #     for employee in self.employees:
-    #         if self.get_employee_availability_by_date(employee.get_id(), date):
-    #             employees.append(employee)
-    #     return employees
-    
     def get_employees_obj_by_date_department_min_hour_req(self, date, department, min_work_hours):
         employees = []
         for employee in self.employees:
@@ -114,27 +107,6 @@ class EmployeesAndAvailability:
             if employee["id"] == id:
                 return employee["availability"].get(date)
         return None
-    
-    # def get_all_employees_availability_by_date(self, date):
-    #     employees_availability = []
-    #     for employee in self.employees:
-    #         employees_availability.append(self.get_employee_availability_by_date(employee.get_id(), date))
-    #     return employees_availability
-
-    # def get_all_employees_availability_by_date_department(self, date, department):
-    #     employees_availability = []
-    #     for employee in self.employees:
-    #         if department in employee.get_department():
-    #             employees_availability.append(self.get_employee_availability_by_date(employee.get_id(), date))
-    #     return employees_availability
-    
-    # def get_all_employees_availability_by_department(self, department):
-    #     employees_availability = []
-    #     for employee in self.employees:
-    #         if department in employee.get_department():
-    #             employees_availability.append(self.get_employee_availability_by_id(employee.get_id()))
-    #     return employees_availability
-    
 
 class Employee:
     def __init__(self, id, name, surname, department):
