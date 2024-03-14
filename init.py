@@ -85,16 +85,15 @@ class EmployeesAndAvailability:
                 return employee
         return None
     
-    def get_employees_obj_by_date(self, date):
-        employees = []
-        for employee in self.employees:
-            if self.get_employee_availability_by_date(employee.get_id(), date):
-                employees.append(employee)
-        return employees
+    # def get_employees_obj_by_date(self, date):
+    #     employees = []
+    #     for employee in self.employees:
+    #         if self.get_employee_availability_by_date(employee.get_id(), date):
+    #             employees.append(employee)
+    #     return employees
     
-    def get_employees_obj_by_date_department_min_hour_req(self, date, department):
+    def get_employees_obj_by_date_department_min_hour_req(self, date, department, min_work_hours):
         employees = []
-        min_work_hours = self.schedule_properties.get_min_employee_work_hours(department)
         for employee in self.employees:
             if department in employee.get_department() and self.get_employee_availability_by_date(employee.get_id(), date):
                 if self.get_employee_availability_by_date(employee.get_id(), date).get("startHour") != "None" and self.get_employee_availability_by_date(employee.get_id(), date).get("endHour") != "None":

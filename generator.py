@@ -1,11 +1,12 @@
 import datetime
+from init import ScheduleProperties
 
 class Generator:
-    def __init__(self, employeesAndAvailability, sheduleProperties):
+    def __init__(self, employeesAndAvailability, scheduleProperties):
         self.employeesAndAvailability = employeesAndAvailability
-        self.sheduleProperties = sheduleProperties
-        self.start_date = self.sheduleProperties.get_start_date()
-        self.end_date = self.sheduleProperties.get_end_date()
+        self.scheduleProperties = scheduleProperties
+        self.start_date = self.scheduleProperties.get_start_date()
+        self.end_date = self.scheduleProperties.get_end_date()
         self.days = (datetime.datetime.strptime(self.end_date, "%Y-%m-%d") - datetime.datetime.strptime(self.start_date, "%Y-%m-%d")).days
 
         self.weekdays = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
@@ -13,13 +14,18 @@ class Generator:
         self.harmonograms = []
 
 
-    def generate_harmonogram_phase_0(self, work_data, department):
+    def generate_harmonogram_phase_0(self, work_data, department, min_hour_req = None):
         """
         Generates a harmonogram based on the provided work data and department.
 
         Args:
             work_data (dict): A dictionary containing work data for each weekday.
             department (str): The department for which the harmonogram is generated.
+            min_hour_req (int): The minimum number of hours an employee must work in a day.
+                                Normally this value is taken from the scheduleProperties,
+                                but if function is called via recursion parameter is passed
+                                and this parameter is lower than the original value.
+                                
 
         Returns:
             list: A list of Harmonogram objects representing the generated harmonogram.
@@ -29,7 +35,10 @@ class Generator:
         for date in dates:
             indx += 1
 
-            employees = self.employeesAndAvailability.get_employees_obj_by_date_department_min_hour_req(date.strftime("%Y-%m-%d"), department)
+            if min_hour_req is None:
+                min_hour_req = self.scheduleProperties.get_min_employee_work_hours(department)
+
+            employees = self.employeesAndAvailability.get_employees_obj_by_date_department_min_hour_req(date.strftime("%Y-%m-%d"), department, min_hour_req)
 
             for emp in employees:
                 print(emp.get_hours_of_availability())
