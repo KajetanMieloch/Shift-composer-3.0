@@ -40,14 +40,14 @@ class Generator:
 
             employees = self.employeesAndAvailability.get_employees_obj_by_date_department_min_hour_req(date.strftime("%Y-%m-%d"), department, min_hour_req)
 
-            for emp in employees:
-                print(emp.get_hours_of_availability())
-
             self.harmonogramOBJ = Harmonogram(indx)
-
             self.harmonogramOBJ.set_matched_employees(employees)
 
             hours = work_data[self.weekdays[date.weekday()]]
+
+            if(hours["from"] == "None" or hours["to"] == "None"):
+                continue
+
             if self.is_hours_after_midnight(hours):
                 self.harmonogramOBJ.set_start_date(date.strftime("%Y-%m-%d"))
                 self.harmonogramOBJ.set_end_date((date + datetime.timedelta(days=1)).strftime("%Y-%m-%d"))

@@ -5,7 +5,7 @@
             "id": 1,
             "name": "John",
             "surname": "Doe",
-            "department": ["HR"]
+            "department": ["HR", "IT"]
         },
         {
             "id": 2,

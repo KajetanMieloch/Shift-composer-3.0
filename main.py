@@ -17,6 +17,7 @@ def generate(department):
 
 def main():
     generate("HR")
+    generate("IT")
     #generate("Security")
 
 if __name__ == "__main__":
