@@ -116,36 +116,36 @@
                 "id": 4,
                 "availability": {
                     "2024-03-04": {
-                        "startHour": "15",
-                        "endHour": "23"
+                        "startHour": "15:00",
+                        "endHour": "23:00"
                     },
                     "2024-03-05": {
-                        "startHour": "15",
-                        "endHour": "23"
+                        "startHour": "15:00",
+                        "endHour": "23:00"
                     },
                     "2024-03-06": {
-                        "startHour": "15",
-                        "endHour": "23"
+                        "startHour": "15:00",
+                        "endHour": "23:00"
                     },
                     "2024-03-07": {
-                        "startHour": "15",
-                        "endHour": "23"
+                        "startHour": "15:00",
+                        "endHour": "23:00"
                     },
                     "2024-03-08": {
-                        "startHour": "15",
-                        "endHour": "23"
+                        "startHour": "15:00",
+                        "endHour": "23:00"
                     },
                     "2024-03-09": {
-                        "startHour": "15",
-                        "endHour": "23"
+                        "startHour": "15:00",
+                        "endHour": "23:00"
                     },
                     "2024-03-10": {
-                        "startHour": "15",
-                        "endHour": "23"
+                        "startHour": "15:00",
+                        "endHour": "23:00"
                     },
                     "2024-03-11": {
-                        "startHour": "15",
-                        "endHour": "23"
+                        "startHour": "15:00",
+                        "endHour": "23:00"
                     }
                 }
             },
@@ -153,36 +153,36 @@
                 "id": 5,
                 "availability": {
                     "2024-03-04": {
-                        "startHour": "23",
-                        "endHour": "7"
+                        "startHour": "23:00",
+                        "endHour": "7:00"
                     },
                     "2024-03-05": {
-                        "startHour": "23",
-                        "endHour": "7"
+                        "startHour": "23:00",
+                        "endHour": "7:00"
                     },
                     "2024-03-06": {
-                        "startHour": "23",
-                        "endHour": "7"
+                        "startHour": "23:00",
+                        "endHour": "7:00"
                     },
                     "2024-03-07": {
-                        "startHour": "23",
-                        "endHour": "7"
+                        "startHour": "23:00",
+                        "endHour": "7:00"
                     },
                     "2024-03-08": {
-                        "startHour": "23",
-                        "endHour": "7"
+                        "startHour": "23:00",
+                        "endHour": "7:00"
                     },
                     "2024-03-09": {
-                        "startHour": "23",
-                        "endHour": "7"
+                        "startHour": "23:00",
+                        "endHour": "7:00"
                     },
                     "2024-03-10": {
-                        "startHour": "23",
-                        "endHour": "7"
+                        "startHour": "23:00",
+                        "endHour": "7:00"
                     },
                     "2024-03-11": {
-                        "startHour": "23",
-                        "endHour": "7"
+                        "startHour": "23:00",
+                        "endHour": "7:00"
                     }
                 }
             },
@@ -190,36 +190,36 @@
                 "id": 6,
                 "availability": {
                     "2024-03-04": {
-                        "startHour": "15",
-                        "endHour": "23"
+                        "startHour": "15:00",
+                        "endHour": "23:00"
                     },
                     "2024-03-05": {
-                        "startHour": "15",
-                        "endHour": "23"
+                        "startHour": "15:00",
+                        "endHour": "23:00"
                     },
                     "2024-03-06": {
-                        "startHour": "15",
-                        "endHour": "23"
+                        "startHour": "15:00",
+                        "endHour": "23:00"
                     },
                     "2024-03-07": {
-                        "startHour": "15",
-                        "endHour": "23"
+                        "startHour": "15:00",
+                        "endHour": "23:00"
                     },
                     "2024-03-08": {
-                        "startHour": "15",
-                        "endHour": "23"
+                        "startHour": "15:00",
+                        "endHour": "23:00"
                     },
                     "2024-03-09": {
-                        "startHour": "15",
-                        "endHour": "23"
+                        "startHour": "15:00",
+                        "endHour": "23:00"
                     },
                     "2024-03-10": {
-                        "startHour": "15",
-                        "endHour": "23"
+                        "startHour": "15:00",
+                        "endHour": "23:00"
                     },
                     "2024-03-11": {
-                        "startHour": "15",
-                        "endHour": "23"
+                        "startHour": "15:00",
+                        "endHour": "23:00"
                     }
                 }
             },
@@ -227,36 +227,36 @@
                 "id": 7,
                 "availability": {
                     "2024-03-04": {
-                        "startHour": "15",
-                        "endHour": "23"
+                        "startHour": "15:00",
+                        "endHour": "23:00"
                     },
                     "2024-03-05": {
-                        "startHour": "15",
-                        "endHour": "23"
+                        "startHour": "15:00",
+                        "endHour": "23:00"
                     },
                     "2024-03-06": {
-                        "startHour": "15",
-                        "endHour": "23"
+                        "startHour": "15:00",
+                        "endHour": "23:00"
                     },
                     "2024-03-07": {
-                        "startHour": "15",
-                        "endHour": "23"
+                        "startHour": "15:00",
+                        "endHour": "23:00"
                     },
                     "2024-03-08": {
-                        "startHour": "15",
-                        "endHour": "23"
+                        "startHour": "15:00",
+                        "endHour": "23:00"
                     },
                     "2024-03-09": {
-                        "startHour": "15",
-                        "endHour": "23"
+                        "startHour": "15:00",
+                        "endHour": "23:00"
                     },
                     "2024-03-10": {
-                        "startHour": "15",
-                        "endHour": "23"
+                        "startHour": "15:00",
+                        "endHour": "23:00"
                     },
                     "2024-03-11": {
-                        "startHour": "15",
-                        "endHour": "23"
+                        "startHour": "15:00",
+                        "endHour": "23:00"
                     }
                 }
             }

@@ -34,6 +34,7 @@ class EmployeesAndAvailability:
         # This is not obvious, becouse is employee is avabile outside of work hours, it will not be counted
         # Also if employee is available all day, it will be counted as department work hours
         # If employee is not available at all, it will be counted as 0
+        # If employee avbility is less than minimum work hours, it will be not counted
 
         for employee in employees:
             work_hours = 0
@@ -43,6 +44,7 @@ class EmployeesAndAvailability:
             for date, emp_hours in employeeObj.get_availability().items():
                 work_day = datetime.strptime(date, "%Y-%m-%d").weekday()
                 for department in employeeObj.get_department():
+                    min_work_hours = schedule_properties.get_min_employee_work_hours(department)
                     work_hours = schedule_properties.get_work_hours_for_department(department)
                     work_hours_by_day = work_hours.get(self.weekdays[work_day])
 
@@ -65,8 +67,16 @@ class EmployeesAndAvailability:
                         start_hour = "None"
                         end_hour = "None"
                     
-                    print(start_hour, end_hour)
-                    #TODO: Count how many hours employee is avabile and then add then thougether, at the end sing value to employe object
+                    #Count how many hours employee is avabile and then sum them up and set them to employee
+                    if start_hour != "None" and end_hour != "None":
+                        hours_of_avability = str(datetime.strptime(end_hour, "%H:%M") - datetime.strptime(start_hour, "%H:%M")).split(",")[-1].strip()
+                        hours_of_avability = self.time_to_float(hours_of_avability)
+                        if hours_of_avability >= min_work_hours:
+                            employeeObj.set_hours_of_availability(employeeObj.hours_of_availability + hours_of_avability)
+
+    def time_to_float(self, time_string):
+        hours, minutes, _ = map(int, time_string.split(':'))
+        return hours + minutes / 60
 
 ###### This methods returns Object of Employee ######
     def get_employee_obj_by_id(self, id):
@@ -146,6 +156,9 @@ class Employee:
     def set_hours_of_availability(self, hours_of_availability):
         self.hours_of_availability = hours_of_availability
 
+    def get_hours_of_availability(self):
+        return self.hours_of_availability
+
     def get_id(self):
         return self.id
     
@@ -183,6 +196,11 @@ class ScheduleProperties:
 
     def get_end_date(self):
         return self.data["date"]["to"]
+    
+    def get_min_employee_work_hours(self, department):
+        for dep in self.data["departments"]:
+            if dep["name"] == department:
+                return dep["minEmployeeWorkHours"]
     
     def get_properties_for_department(self, department):
        for dep in self.data["departments"]:

@@ -31,6 +31,9 @@ class Generator:
 
             employees = self.employeesAndAvailability.get_employees_obj_by_date_department(date.strftime("%Y-%m-%d"), department)
 
+            for emp in employees:
+                print(emp.get_hours_of_availability())
+
             self.harmonogramOBJ = Harmonogram(indx)
 
             self.harmonogramOBJ.set_matched_employees(employees)
