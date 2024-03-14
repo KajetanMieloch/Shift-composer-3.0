@@ -7,6 +7,8 @@ class EmployeesAndAvailability:
 
         self.employees = []
         self.availability = []
+        self.dataForSchedule = dataForSchedule
+        self.schedule_properties = ScheduleProperties(dataForSchedule)
         for employee in employeesAva:
             employee_availability = {
                 "id": employee["id"],
@@ -25,8 +27,6 @@ class EmployeesAndAvailability:
             employeeObj = self.get_employee_obj_by_id(employee["id"])
             employeeObj.set_availability(self.get_employee_availability_by_id(employee["id"]))
 
-        self.dataForSchedule = dataForSchedule
-        schedule_properties = ScheduleProperties(dataForSchedule)
 
         # This code is very important, it sets how many hours every employee is available
         # This number will determine priority of employee
@@ -44,8 +44,8 @@ class EmployeesAndAvailability:
             for date, emp_hours in employeeObj.get_availability().items():
                 work_day = datetime.strptime(date, "%Y-%m-%d").weekday()
                 for department in employeeObj.get_department():
-                    min_work_hours = schedule_properties.get_min_employee_work_hours(department)
-                    work_hours = schedule_properties.get_work_hours_for_department(department)
+                    min_work_hours = self.schedule_properties.get_min_employee_work_hours(department)
+                    work_hours = self.schedule_properties.get_work_hours_for_department(department)
                     work_hours_by_day = work_hours.get(self.weekdays[work_day])
 
                     if emp_hours.get("startHour") != "None" and emp_hours.get("endHour") != "None" and work_hours_by_day.get("from") != "None" and work_hours_by_day.get("to") != "None":
@@ -92,12 +92,14 @@ class EmployeesAndAvailability:
                 employees.append(employee)
         return employees
     
-    def get_employees_obj_by_date_department(self, date, department):
+    def get_employees_obj_by_date_department_min_hour_req(self, date, department):
         employees = []
+        min_work_hours = self.schedule_properties.get_min_employee_work_hours(department)
         for employee in self.employees:
             if department in employee.get_department() and self.get_employee_availability_by_date(employee.get_id(), date):
                 if self.get_employee_availability_by_date(employee.get_id(), date).get("startHour") != "None" and self.get_employee_availability_by_date(employee.get_id(), date).get("endHour") != "None":
-                    employees.append(employee)
+                    if employee.get_hours_of_availability() >= min_work_hours:
+                        employees.append(employee)
         return employees
 
 ###### This methods returns Dicts of Employees availabilityes ######      

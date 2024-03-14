@@ -29,7 +29,7 @@ class Generator:
         for date in dates:
             indx += 1
 
-            employees = self.employeesAndAvailability.get_employees_obj_by_date_department(date.strftime("%Y-%m-%d"), department)
+            employees = self.employeesAndAvailability.get_employees_obj_by_date_department_min_hour_req(date.strftime("%Y-%m-%d"), department)
 
             for emp in employees:
                 print(emp.get_hours_of_availability())
