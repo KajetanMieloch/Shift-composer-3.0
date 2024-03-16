@@ -40,7 +40,7 @@ class Generator:
 
             employees = self.employeesAndAvailability.get_employees_obj_by_date_department_min_hour_req(date.strftime("%Y-%m-%d"), department, min_hour_req)
 
-            self.harmonogramOBJ = Harmonogram(indx)
+            self.harmonogramOBJ = Harmonogram(indx, department)
             self.harmonogramOBJ.set_matched_employees(employees)
 
             hours = work_data[self.weekdays[date.weekday()]]
@@ -82,14 +82,16 @@ class Generator:
 
     
 class Harmonogram:
-    def __init__(self, indx):
+    def __init__(self, indx, department):
         self.indx = indx
+        self.department = department
+
         self.start_date = 0
         self.end_date = 0
         self.start_hour = 0
         self.end_hour = 0
         self.matched_employees = []
-    
+
     def set_start_date(self, start_date):
         self.start_date = start_date
 

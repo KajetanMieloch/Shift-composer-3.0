@@ -9,6 +9,7 @@ class EmployeesAndAvailability:
         self.availability = []
         self.dataForSchedule = dataForSchedule
         self.schedule_properties = ScheduleProperties(dataForSchedule)
+        self.employee_avability_for_department = {}
         for employee in employeesAva:
             employee_availability = {
                 "id": employee["id"],
@@ -26,7 +27,6 @@ class EmployeesAndAvailability:
             self.employees.append(Employee(employee["id"], employee["name"], employee["surname"], employee["department"]))
             employeeObj = self.get_employee_obj_by_id(employee["id"])
             employeeObj.set_availability(self.get_employee_availability_by_id(employee["id"]))
-
 
         # This code is very important, it sets how many hours every employee is available
         # This number will determine priority of employee
@@ -66,13 +66,17 @@ class EmployeesAndAvailability:
                     else:
                         start_hour = "None"
                         end_hour = "None"
-                    
+
                     #Count how many hours employee is avabile and then sum them up and set them to employee
                     if start_hour != "None" and end_hour != "None":
                         hours_of_avability = str(datetime.strptime(end_hour, "%H:%M") - datetime.strptime(start_hour, "%H:%M")).split(",")[-1].strip()
                         hours_of_avability = self.time_to_float(hours_of_avability)
                         if hours_of_avability >= min_work_hours:
-                            employeeObj.set_hours_of_availability(employeeObj.hours_of_availability + hours_of_avability)
+                            employeeObj.set_hours_of_availability(employeeObj.get_hours_of_availability(department) + hours_of_avability, department)
+        
+        for employee in self.employees:
+            for department in employee.get_department():
+                employee.set_employee_avability_for_department(department, employee.get_hours_of_availability(department))
 
     def time_to_float(self, time_string):
         hours, minutes, _ = map(int, time_string.split(':'))
@@ -90,7 +94,7 @@ class EmployeesAndAvailability:
         for employee in self.employees:
             if department in employee.get_department() and self.get_employee_availability_by_date(employee.get_id(), date):
                 if self.get_employee_availability_by_date(employee.get_id(), date).get("startHour") != "None" and self.get_employee_availability_by_date(employee.get_id(), date).get("endHour") != "None":
-                    if employee.get_hours_of_availability() >= min_work_hours:
+                    if employee.get_hours_of_availability(department) >= min_work_hours:
                         employees.append(employee)
         return employees
 
@@ -115,22 +119,27 @@ class Employee:
         self.surname = surname
         self.department = department
         self.availability = []
-        self.hours_of_availability = 0
+        self.hours_of_availability = {}
         self.last_shift = None
         self.worked_hours = 0
         self.shifts = []
+        self.employee_avability_for_department = {}
     
     def set_availability(self, availability):
         self.availability = availability
     
     def get_availability(self):
         return self.availability
-    
-    def set_hours_of_availability(self, hours_of_availability):
-        self.hours_of_availability = hours_of_availability
 
-    def get_hours_of_availability(self):
-        return self.hours_of_availability
+
+    def set_hours_of_availability(self, hours_of_availability, department):
+        try:
+            self.hours_of_availability[department] += hours_of_availability
+        except:
+            self.hours_of_availability[department] = hours_of_availability
+
+    def get_hours_of_availability(self, department):
+        return self.hours_of_availability.get(department, 0.0)
 
     def get_id(self):
         return self.id
@@ -149,6 +158,12 @@ class Employee:
     
     def get_worked_hours(self):
         return self.worked_hours
+    
+    def set_employee_avability_for_department(self, department, hours):
+        self.employee_avability_for_department[department] = hours
+    
+    def get_employee_avability_for_department(self):
+        return self.employee_avability_for_department
     
     def get_shifts(self):
         return self.shifts

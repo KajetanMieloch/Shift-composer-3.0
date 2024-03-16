@@ -13,7 +13,11 @@ def generate(department):
     for h in harmonogram:
         print(h.start_date, h.end_date, h.start_hour, h.end_hour, h.matched_employees)
         for emp in h.matched_employees:
-            print(emp.get_id())
+            print(emp.get_employee_avability_for_department())
+            pass
+
+def combine():
+    pass
 
 def main():
     generate("HR")
