@@ -77,7 +77,7 @@ class Generator:
             return True
         return False
 
-    def generate_harmonogram_phase_1(self):
+    def generate_harmonogram_phase_1(self, harmonogram_multiple_departments, harmonogram_single_department):
         pass
 
     
