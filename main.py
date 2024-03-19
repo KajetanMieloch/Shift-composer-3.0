@@ -55,6 +55,10 @@ def combine(schedules, schedules_to_combine):
 
 
 def main():
+
+    schedules_multiple_departments = []
+    schedules_single_department = []
+
     schedules = []
     schedules.append(generate("HR"))
     schedules.append(generate("IT"))
@@ -62,10 +66,12 @@ def main():
 
     schedules_to_combine = get_schedule_to_combine(schedules)
     combined = combine(schedules, schedules_to_combine)
-
-    print("SCHEUDLES WITH SHARED EMPLOYEES:" + str(schedules_to_combine))
-    print(combined)
-
+    
+    for s in schedules:
+        if s in combined:
+            schedules_multiple_departments.append(s)
+        else:
+            schedules_single_department.append(s)
 
 if __name__ == "__main__":
     main()
