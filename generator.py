@@ -99,16 +99,25 @@ class Generator:
         for h in harmonogram:
             start_hour = h.start_hour
             end_hour = h.end_hour
+            dep_max_hours = work_data.get_max_employee_work_hours(department)
+            print("Max hours", dep_max_hours)
             for e in h.matched_employees:
-                emp_worked_hours = e.get_worked_hours()
                 emp_strat_hour = e.get_availability().get(h.start_date).get("startHour")
                 emp_end_hour = e.get_availability().get(h.start_date).get("endHour")
 
-                print(start_hour, end_hour, emp_strat_hour, emp_end_hour)
                 if emp_strat_hour == "All" and emp_end_hour == "All":
                     #get delta time between start and end hour and add it to employee worked hours
-                    emp_worked_hours += self.hours_between_two_hours(start_hour, end_hour)
-                    print(emp_worked_hours)
+                    if self.hours_between_two_hours(start_hour, end_hour) > dep_max_hours:
+                        emp_worked_hours = dep_max_hours
+                    else:
+                        emp_worked_hours = self.hours_between_two_hours(start_hour, end_hour)               
+                else:
+                    #if employee has specific hours of work
+                    emp_worked_hours = self.hours_between_two_hours(emp_strat_hour, emp_end_hour)
+                
+                e.add_worked_hours(emp_worked_hours)
+
+                print(e.get_id(), e.get_worked_hours())
 
 
         return harmonogram

@@ -193,6 +193,11 @@ class ScheduleProperties:
             if dep["name"] == department:
                 return dep["minEmployeeWorkHours"]
     
+    def get_max_employee_work_hours(self, department):
+        for dep in self.data["departments"]:
+            if dep["name"] == department:
+                return dep["maxEmployeeWorkHours"]
+    
     def get_properties_for_department(self, department):
        for dep in self.data["departments"]:
            if dep["name"] == department:
