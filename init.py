@@ -159,6 +159,9 @@ class Employee:
     def get_worked_hours(self):
         return self.worked_hours
     
+    def add_worked_hours(self, hours):
+        self.worked_hours += hours
+    
     def set_employee_avability_for_department(self, department, hours):
         self.employee_avability_for_department[department] = hours
     
@@ -195,12 +198,12 @@ class ScheduleProperties:
            if dep["name"] == department:
                return dep
    
-    def get_minEmployees_for_department(self, department):
+    def get_min_employees_for_department(self, department):
         for dep in self.data["departments"]:
             if dep["name"] == department:
                 return dep["minEmployees"]
     
-    def get_maxEmployees_for_department(self, department):
+    def get_max_employees_for_department(self, department):
         for dep in self.data["departments"]:
             if dep["name"] == department:
                 return dep["maxEmployees"]

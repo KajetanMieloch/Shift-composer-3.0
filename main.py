@@ -22,8 +22,10 @@ def generate(department, priority = 0):
     ## Debug ###
         
     #This return is marked to delete
-    #Instead of returning the harmonogram, we should process it and return optimized schedule
-    return {"department": department, "harmonogram": harmonogram}
+    #Instead of returning the harmonogram, we should process it and return optimized harmonogram
+    optimazed_harmonogram = generator.generate_harmonogram_phase_1(harmonogram, department, sheduleProperties)
+
+    return {"department": department, "harmonogram": optimazed_harmonogram}
 
 
 def get_schedule_to_combine(schedules):

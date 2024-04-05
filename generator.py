@@ -77,8 +77,18 @@ class Generator:
             return True
         return False
 
-    def generate_harmonogram_phase_1(self, harmonograms):
-        pass
+    def generate_harmonogram_phase_1(self, harmonogram, department, work_data):
+        print("Phase 1")
+        minEmployees = work_data.get_min_employees_for_department(department)
+        maxEmployees = work_data.get_max_employees_for_department(department)
+
+        #go day by day and print out hours of work for each employee
+        #Get how man hours of work each employee has and then sum them up
+        #Also add up hours of work for each employee
+        
+
+
+        return harmonogram
 
     
 class Harmonogram:
