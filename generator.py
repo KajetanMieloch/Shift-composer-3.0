@@ -77,6 +77,17 @@ class Generator:
             return True
         return False
 
+    def hours_between_two_hours(self, start_hour, end_hour):
+        #if end hour is after midnight then add missing hours to end hour
+        #and then calculate delta time
+        #convert string to datetime object
+        start_hour = datetime.datetime.strptime(start_hour, "%H:%M")
+        end_hour = datetime.datetime.strptime(end_hour, "%H:%M")
+
+        #return delta time in hours as float
+
+        return (end_hour - start_hour).seconds / 3600
+
     def generate_harmonogram_phase_1(self, harmonogram, department, work_data):
         print("Phase 1")
         minEmployees = work_data.get_min_employees_for_department(department)
@@ -85,11 +96,22 @@ class Generator:
         #go day by day and print out hours of work for each employee
         #Get how man hours of work each employee has and then sum them up
         #Also add up hours of work for each employee
-        
+        for h in harmonogram:
+            start_hour = h.start_hour
+            end_hour = h.end_hour
+            for e in h.matched_employees:
+                emp_worked_hours = e.get_worked_hours()
+                emp_strat_hour = e.get_availability().get(h.start_date).get("startHour")
+                emp_end_hour = e.get_availability().get(h.start_date).get("endHour")
+
+                print(start_hour, end_hour, emp_strat_hour, emp_end_hour)
+                if emp_strat_hour == "All" and emp_end_hour == "All":
+                    #get delta time between start and end hour and add it to employee worked hours
+                    emp_worked_hours += self.hours_between_two_hours(start_hour, end_hour)
+                    print(emp_worked_hours)
 
 
         return harmonogram
-
     
 class Harmonogram:
     def __init__(self, indx, department):
