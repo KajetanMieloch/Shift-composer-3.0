@@ -56,7 +56,7 @@ class EmployeesAndAvailability:
                         else:
 
                             if (employeeObj.get_id() == 5):
-                              print("Employee: ", employeeObj.get_name(), " ", employeeObj.get_surname(), " Start hour: ", start_hour, " End hour: ", emp_hours.get("endHour"), " Work hours from: ", work_hours_by_day["from"], " Work hours to: ", work_hours_by_day["to"])
+                              print("Date: ", date, "Employee: ", employeeObj.get_name(), " ", employeeObj.get_surname(), " Start hour: ", emp_hours.get("startHour"), " End hour: ", emp_hours.get("endHour"), " Work hours from: ", work_hours_by_day["from"], " Work hours to: ", work_hours_by_day["to"])
 
 
                             if emp_hours.get("startHour") < work_hours_by_day["from"]:

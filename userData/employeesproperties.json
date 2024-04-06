@@ -153,8 +153,8 @@
                 "id": 5,
                 "availability": {
                     "2024-03-04": {
-                        "startHour": "23:00",
-                        "endHour": "7:00"
+                        "startHour": "22:00",
+                        "endHour": "1:00"
                     },
                     "2024-03-05": {
                         "startHour": "23:00",
