@@ -88,8 +88,26 @@ class Generator:
 
         return (end_hour - start_hour).seconds / 3600
 
+    def add_worked_hours_to_employee(self, employee, start_hour, end_hour, dep_max_hours):
+        emp_start_hour = employee.get_availability().get(self.start_date).get("startHour")
+        emp_end_hour = employee.get_availability().get(self.start_date).get("endHour")
+
+        if emp_start_hour == "All" and emp_end_hour == "All":
+            # get delta time between start and end hour and add it to employee worked hours
+            if self.hours_between_two_hours(start_hour, end_hour) > dep_max_hours:
+                emp_worked_hours = dep_max_hours
+            else:
+                emp_worked_hours = self.hours_between_two_hours(start_hour, end_hour)
+        else:
+            # if employee has specific hours of work
+            emp_worked_hours = self.hours_between_two_hours(emp_start_hour, emp_end_hour)
+
+        employee.add_worked_hours(emp_worked_hours)
+
+        #print(employee.get_id(), employee.get_worked_hours())
+
     def generate_harmonogram_phase_1(self, harmonogram, department, work_data):
-        print("Phase 1")
+        #print("Phase 1")
         minEmployees = work_data.get_min_employees_for_department(department)
         maxEmployees = work_data.get_max_employees_for_department(department)
 
@@ -100,25 +118,22 @@ class Generator:
             start_hour = h.start_hour
             end_hour = h.end_hour
             dep_max_hours = work_data.get_max_employee_work_hours(department)
-            print("Max hours", dep_max_hours)
+            dep_max_emps = work_data.get_max_employees_for_department(department)
+            dep_min_emps = work_data.get_min_employees_for_department(department)
+            
+            #print("Next day")
+            #print(h.start_date, h.end_date, h.start_hour, h.end_hour)
+
+            #List of employees that are matched for this day (object) in descending order (by hours of availability)
+            sorted_employees = sorted(h.matched_employees, key=lambda x: x.get_hours_of_availability(department), reverse=False)
+
+            #print("Sorted employees")
+            for e in sorted_employees:
+                #print(e.get_id(), e.get_name(), e.get_hours_of_availability(department))
+                pass
+
             for e in h.matched_employees:
-                emp_strat_hour = e.get_availability().get(h.start_date).get("startHour")
-                emp_end_hour = e.get_availability().get(h.start_date).get("endHour")
-
-                if emp_strat_hour == "All" and emp_end_hour == "All":
-                    #get delta time between start and end hour and add it to employee worked hours
-                    if self.hours_between_two_hours(start_hour, end_hour) > dep_max_hours:
-                        emp_worked_hours = dep_max_hours
-                    else:
-                        emp_worked_hours = self.hours_between_two_hours(start_hour, end_hour)               
-                else:
-                    #if employee has specific hours of work
-                    emp_worked_hours = self.hours_between_two_hours(emp_strat_hour, emp_end_hour)
-                
-                e.add_worked_hours(emp_worked_hours)
-
-                print(e.get_id(), e.get_worked_hours())
-
+                self.add_worked_hours_to_employee(e, start_hour, end_hour, dep_max_hours)
 
         return harmonogram
     
