@@ -55,15 +55,16 @@ class EmployeesAndAvailability:
                         
                         else:
 
+                            print(employeeObj.get_name(), emp_hours.get("startHour"), emp_hours.get("endHour"), work_hours_by_day["from"], work_hours_by_day["to"])
+
                             if emp_hours.get("startHour") <= work_hours_by_day["from"] and emp_hours.get("startHour") <= work_hours_by_day["to"]:
                                 start_hour = work_hours_by_day["from"]
                             
                             elif emp_hours.get("startHour") >= work_hours_by_day["from"] and emp_hours.get("startHour") <= work_hours_by_day["to"]:
                                 start_hour = emp_hours.get("startHour")
 
-
-
                             else:
+                                print("Error", emp_hours.get("startHour"), emp_hours.get("endHour"), work_hours_by_day["from"], work_hours_by_day["to"])
                                 start_hour = "None"
 
                             if emp_hours.get("endHour") <= work_hours_by_day["from"] and emp_hours.get("startHour") < emp_hours.get("endHour"):
@@ -77,30 +78,31 @@ class EmployeesAndAvailability:
 
                             else:
                                 end_hour = "None"
-                                
+
+                            try:
+                                if abs(datetime.strptime(end_hour, "%H:%M") - datetime.strptime(start_hour, "%H:%M")).seconds / 3600 < min_work_hours:
+                                    end_hour = "None"
+                                    start_hour = "None"
+                            except:
+                                pass
                     else:
                         start_hour = "None"
                         end_hour = "None"
 
                     #Count how many hours employee is avabile and then sum them up and set them to employee
                     if start_hour != "None" and end_hour != "None":
-                        print(employeeObj.get_name(), " ", "Start hour: ", start_hour, " End hour: ", end_hour)
-                        pass
-
-                        hours_of_avability = str(datetime.strptime(end_hour, "%H:%M") - datetime.strptime(start_hour, "%H:%M")).split(",")[-1].strip()
-                        hours_of_avability = self.time_to_float(hours_of_avability)
-                        if hours_of_avability >= min_work_hours:
-                            print("Employee: ", employeeObj.get_name(), " ", employeeObj.get_surname(), " is available for ", hours_of_avability, " hours on ", date, " in department: ", department)
-                            employeeObj.set_hours_of_availability(employeeObj.get_hours_of_availability(department) + hours_of_avability, department)
-                            print("Employee: ", employeeObj.get_name(), " ", employeeObj.get_surname(), " is available for ", employeeObj.get_hours_of_availability(department), " hours in department: ", department)
-        
+                        employeeObj.set_hours_of_availability(abs(self.time_to_float(end_hour) - self.time_to_float(start_hour)), department)
+                        print(employeeObj.get_name(), employeeObj.get_hours_of_availability(department))
 
         for employee in self.employees:
             for department in employee.get_department():
                 employee.set_employee_avability_for_department(department, employee.get_hours_of_availability(department))
 
     def time_to_float(self, time_string):
-        hours, minutes, _ = map(int, time_string.split(':'))
+        try:
+            hours, minutes = map(int, time_string.split(':'))
+        except:
+            hours, minutes, _ = map(int, time_string.split(':'))
         return hours + minutes / 60
 
 ###### This methods returns Object of Employee ######

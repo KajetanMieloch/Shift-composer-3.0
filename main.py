@@ -15,9 +15,9 @@ def generate(department, priority = 0):
     
     ## Debug ###
     for h in harmonogram:
-        print(h.start_date, h.end_date, h.start_hour, h.end_hour, h.matched_employees)
+        #print(h.start_date, h.end_date, h.start_hour, h.end_hour, h.matched_employees)
         for emp in h.matched_employees:
-            print(emp.get_id(), emp.get_name(), emp.get_hours_of_availability(department))
+            #print(emp.get_id(), emp.get_name(), emp.get_hours_of_availability(department))
             pass
     ## Debug ###
         
