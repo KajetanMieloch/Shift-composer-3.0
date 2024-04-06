@@ -57,23 +57,28 @@ class EmployeesAndAvailability:
 
                             print(employeeObj.get_name(), emp_hours.get("startHour"), emp_hours.get("endHour"), work_hours_by_day["from"], work_hours_by_day["to"])
 
-                            if emp_hours.get("startHour") <= work_hours_by_day["from"] and emp_hours.get("startHour") <= work_hours_by_day["to"]:
+                            emp_start_hour = self.time_to_float(datetime.strptime(emp_hours.get("startHour"), "%H:%M").strftime("%H:%M"))
+                            emp_end_hour = self.time_to_float(datetime.strptime(emp_hours.get("endHour"), "%H:%M").strftime("%H:%M"))
+                            work_start_hour = self.time_to_float(datetime.strptime(work_hours_by_day["from"], "%H:%M").strftime("%H:%M"))
+                            work_end_hour = self.time_to_float(datetime.strptime(work_hours_by_day["to"], "%H:%M").strftime("%H:%M"))
+
+                            if emp_start_hour <= work_start_hour and emp_end_hour >= work_end_hour:
                                 start_hour = work_hours_by_day["from"]
                             
-                            elif emp_hours.get("startHour") >= work_hours_by_day["from"] and emp_hours.get("startHour") <= work_hours_by_day["to"]:
+                            elif  emp_start_hour >= work_start_hour and emp_start_hour <= work_end_hour:
                                 start_hour = emp_hours.get("startHour")
 
                             else:
                                 print("Error", emp_hours.get("startHour"), emp_hours.get("endHour"), work_hours_by_day["from"], work_hours_by_day["to"])
                                 start_hour = "None"
 
-                            if emp_hours.get("endHour") <= work_hours_by_day["from"] and emp_hours.get("startHour") < emp_hours.get("endHour"):
+                            if emp_end_hour <= work_start_hour and emp_end_hour >= work_end_hour:
                                 end_hour = work_hours_by_day["to"]
 
-                            elif emp_hours.get("endHour") >= work_hours_by_day["from"] and emp_hours.get("endHour") <= work_hours_by_day["to"]:
+                            elif emp_end_hour >= work_start_hour and emp_end_hour <= work_end_hour:
                                 end_hour = emp_hours.get("endHour")
                             
-                            elif emp_hours.get("endHour") >= work_hours_by_day["from"] and emp_hours.get("endHour") >= work_hours_by_day["to"]:
+                            elif emp_end_hour >= work_start_hour and emp_end_hour >= work_end_hour:
                                 end_hour = work_hours_by_day["to"]
 
                             else:
