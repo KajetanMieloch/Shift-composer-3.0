@@ -55,51 +55,46 @@ class EmployeesAndAvailability:
                         
                         else:
 
-                            if (employeeObj.get_id() == 5):
-                              print("Date: ", date, "Employee: ", employeeObj.get_name(), " ", employeeObj.get_surname(), " Start hour: ", emp_hours.get("startHour"), " End hour: ", emp_hours.get("endHour"), " Work hours from: ", work_hours_by_day["from"], " Work hours to: ", work_hours_by_day["to"])
-
-
-                            if emp_hours.get("startHour") < work_hours_by_day["from"]:
+                            if emp_hours.get("startHour") <= work_hours_by_day["from"] and emp_hours.get("startHour") <= work_hours_by_day["to"]:
                                 start_hour = work_hours_by_day["from"]
-                                if (employeeObj.get_id() == 5):
-                                    print("1")
-                                    print("Start hour: ", start_hour)
-                            else:
+                            
+                            elif emp_hours.get("startHour") >= work_hours_by_day["from"] and emp_hours.get("startHour") <= work_hours_by_day["to"]:
                                 start_hour = emp_hours.get("startHour")
-                                if (employeeObj.get_id() == 5):
-                                    print("2")
-                                    print("Start hour: ", start_hour)
 
-                            if emp_hours.get("endHour") > work_hours_by_day["to"]:
-                                end_hour = work_hours_by_day["to"]
-                                if (employeeObj.get_id() == 5):
-                                    print("3")
-                                    print("End hour: ", end_hour)
+
+
                             else:
+                                start_hour = "None"
+
+                            if emp_hours.get("endHour") <= work_hours_by_day["from"] and emp_hours.get("startHour") < emp_hours.get("endHour"):
+                                end_hour = work_hours_by_day["to"]
+
+                            elif emp_hours.get("endHour") >= work_hours_by_day["from"] and emp_hours.get("endHour") <= work_hours_by_day["to"]:
                                 end_hour = emp_hours.get("endHour")
-                                if (employeeObj.get_id() == 5):
-                                    print("4")
-                                    print("End hour: ", end_hour)
+                            
+                            elif emp_hours.get("endHour") >= work_hours_by_day["from"] and emp_hours.get("endHour") >= work_hours_by_day["to"]:
+                                end_hour = work_hours_by_day["to"]
+
+                            else:
+                                end_hour = "None"
+                                
                     else:
                         start_hour = "None"
                         end_hour = "None"
 
                     #Count how many hours employee is avabile and then sum them up and set them to employee
                     if start_hour != "None" and end_hour != "None":
-                        #print(employeeObj.get_name(), " ", "Start hour: ", start_hour, " End hour: ", end_hour)
+                        print(employeeObj.get_name(), " ", "Start hour: ", start_hour, " End hour: ", end_hour)
                         pass
 
-
-
-
-
-                        # hours_of_avability = str(datetime.strptime(end_hour, "%H:%M") - datetime.strptime(start_hour, "%H:%M")).split(",")[-1].strip()
-                        # hours_of_avability = self.time_to_float(hours_of_avability)
-                        # if hours_of_avability >= min_work_hours:
-                        #     print("Employee: ", employeeObj.get_name(), " ", employeeObj.get_surname(), " is available for ", hours_of_avability, " hours on ", date, " in department: ", department)
-                        #     employeeObj.set_hours_of_availability(employeeObj.get_hours_of_availability(department) + hours_of_avability, department)
-                        #     print("Employee: ", employeeObj.get_name(), " ", employeeObj.get_surname(), " is available for ", employeeObj.get_hours_of_availability(department), " hours in department: ", department)
+                        hours_of_avability = str(datetime.strptime(end_hour, "%H:%M") - datetime.strptime(start_hour, "%H:%M")).split(",")[-1].strip()
+                        hours_of_avability = self.time_to_float(hours_of_avability)
+                        if hours_of_avability >= min_work_hours:
+                            print("Employee: ", employeeObj.get_name(), " ", employeeObj.get_surname(), " is available for ", hours_of_avability, " hours on ", date, " in department: ", department)
+                            employeeObj.set_hours_of_availability(employeeObj.get_hours_of_availability(department) + hours_of_avability, department)
+                            print("Employee: ", employeeObj.get_name(), " ", employeeObj.get_surname(), " is available for ", employeeObj.get_hours_of_availability(department), " hours in department: ", department)
         
+
         for employee in self.employees:
             for department in employee.get_department():
                 employee.set_employee_avability_for_department(department, employee.get_hours_of_availability(department))
