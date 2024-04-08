@@ -127,9 +127,9 @@ class Generator:
             #List of employees that are matched for this day (object) in descending order (by hours of availability)
             sorted_employees = sorted(h.matched_employees, key=lambda x: x.get_hours_of_availability(department), reverse=False)
 
-            #print("Sorted employees")
+            print("Sorted employees")
             for e in sorted_employees:
-                #print(e.get_id(), e.get_name(), e.get_hours_of_availability(department))
+                print(e.get_id(), e.get_name(), e.get_hours_of_availability(department))
                 pass
 
             for e in h.matched_employees:

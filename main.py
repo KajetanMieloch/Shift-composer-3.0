@@ -73,8 +73,8 @@ def main():
     schedules_multiple_departments = []
 
     schedules = []
-    schedules.append(generate("HR"))
-    schedules.append(generate("IT"))
+    #schedules.append(generate("HR"))
+    #schedules.append(generate("IT"))
     schedules.append(generate("Security"))
 
     schedules_to_combine = get_schedule_to_combine(schedules)

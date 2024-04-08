@@ -48,15 +48,19 @@ class EmployeesAndAvailability:
                     work_hours = self.schedule_properties.get_work_hours_for_department(department)
                     work_hours_by_day = work_hours.get(self.weekdays[work_day])
 
+                    #from 00:00 - 00:00 means that edeparteent is open all day
+                    if work_hours_by_day.get("from") == "00:00" or work_hours_by_day.get("to") == "00:00":
+                        if abs(self.time_to_float(emp_hours.get("endHour")) - self.time_to_float(emp_hours.get("startHour"))) >= min_work_hours:
+                            employeeObj.set_hours_of_availability(abs(self.time_to_float(emp_hours.get("endHour")) - self.time_to_float(emp_hours.get("startHour"))), department)
+                            continue
+                        
+
                     if emp_hours.get("startHour") != "None" and emp_hours.get("endHour") != "None" and work_hours_by_day.get("from") != "None" and work_hours_by_day.get("to") != "None":
                         if emp_hours.get("startHour") == "All" and emp_hours.get("endHour") == "All":
                             start_hour = work_hours_by_day["from"]
                             end_hour = work_hours_by_day["to"]
                         
                         else:
-
-                            print(employeeObj.get_name(), emp_hours.get("startHour"), emp_hours.get("endHour"), work_hours_by_day["from"], work_hours_by_day["to"])
-
                             emp_start_hour = self.time_to_float(datetime.strptime(emp_hours.get("startHour"), "%H:%M").strftime("%H:%M"))
                             emp_end_hour = self.time_to_float(datetime.strptime(emp_hours.get("endHour"), "%H:%M").strftime("%H:%M"))
                             work_start_hour = self.time_to_float(datetime.strptime(work_hours_by_day["from"], "%H:%M").strftime("%H:%M"))
@@ -69,7 +73,6 @@ class EmployeesAndAvailability:
                                 start_hour = emp_hours.get("startHour")
 
                             else:
-                                print("Error", emp_hours.get("startHour"), emp_hours.get("endHour"), work_hours_by_day["from"], work_hours_by_day["to"])
                                 start_hour = "None"
 
                             if emp_end_hour <= work_start_hour and emp_end_hour >= work_end_hour:
@@ -97,7 +100,6 @@ class EmployeesAndAvailability:
                     #Count how many hours employee is avabile and then sum them up and set them to employee
                     if start_hour != "None" and end_hour != "None":
                         employeeObj.set_hours_of_availability(abs(self.time_to_float(end_hour) - self.time_to_float(start_hour)), department)
-                        print(employeeObj.get_name(), employeeObj.get_hours_of_availability(department))
 
         for employee in self.employees:
             for department in employee.get_department():
