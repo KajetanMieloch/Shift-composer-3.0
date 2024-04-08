@@ -127,11 +127,14 @@ class Generator:
             #List of employees that are matched for this day (object) in descending order (by hours of availability)
             sorted_employees = sorted(h.matched_employees, key=lambda x: x.get_hours_of_availability(department), reverse=False)
 
+            #This is the list of employees that will work on this day (object), sorted by hours of availability
+            #TODO: Delete employees from harmonogram additional employees that are not needed
             print("Sorted employees")
             for e in sorted_employees:
                 print(e.get_id(), e.get_name(), e.get_hours_of_availability(department))
                 pass
 
+            #TODO: add all worked hours to employee
             for e in h.matched_employees:
                 self.add_worked_hours_to_employee(e, start_hour, end_hour, dep_max_hours)
 
