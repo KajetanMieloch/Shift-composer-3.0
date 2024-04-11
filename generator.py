@@ -129,6 +129,19 @@ class Generator:
 
             #This is the list of employees that will work on this day (object), sorted by hours of availability
             #TODO: Delete employees from harmonogram additional employees that are not needed
+            
+            print(start_hour, end_hour, dep_max_hours, dep_max_emps, dep_min_emps)
+
+            id_and_working_hours = {}
+
+            for e in sorted_employees:
+                emp_start_hour = e.get_availability().get(h.start_date).get("startHour")
+                emp_end_hour = e.get_availability().get(h.start_date).get("endHour")
+                emp_id = e.get_id()
+                id_and_working_hours[emp_id] = emp_start_hour, emp_end_hour
+
+            print(id_and_working_hours)
+
             print("Sorted employees")
             for e in sorted_employees:
                 print(e.get_id(), e.get_name(), e.get_hours_of_availability(department))

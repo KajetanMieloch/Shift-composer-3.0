@@ -9,8 +9,8 @@
                         "endHour": "All"
                     },
                     "2024-03-05": {
-                        "startHour": "None",
-                        "endHour": "None"
+                        "startHour": "9:00",
+                        "endHour": "18:00"
                     },
                     "2024-03-06": {
                         "startHour": "9:00",
@@ -46,8 +46,8 @@
                         "endHour": "All"
                     },
                     "2024-03-05": {
-                        "startHour": "All",
-                        "endHour": "All"
+                        "startHour": "16:00",
+                        "endHour": "2:00"
                     },
                     "2024-03-06": {
                         "startHour": "9:30",
