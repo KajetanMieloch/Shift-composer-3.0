@@ -129,6 +129,12 @@ class Generator:
 
             #This is the list of employees that will work on this day (object), sorted by hours of availability
             #TODO: Delete employees from harmonogram additional employees that are not needed
+
+            total_worked_hours = 0
+            for e in h.matched_employees:
+                total_worked_hours += e.get_worked_hours()
+                print(e.get_id(), e.get_worked_hours())
+           
             
             print(start_hour, end_hour, dep_max_hours, dep_max_emps, dep_min_emps)
 
@@ -140,6 +146,38 @@ class Generator:
                 emp_id = e.get_id()
                 id_and_working_hours[emp_id] = emp_start_hour, emp_end_hour
 
+            employes_in_one_day = 0
+
+            for e in id_and_working_hours:
+                employes_in_one_day += 1
+
+            print("Employees in one day: ", employes_in_one_day)
+
+            if employes_in_one_day < dep_min_emps:
+                print("Not enough employees for this day")
+                print(id_and_working_hours)
+                #print("Sorted employees")
+                #for e in sorted_employees:
+                #    print(e.get_id(), e.get_name(), e.get_hours_of_availability(department))
+                #    pass
+
+            if employes_in_one_day > dep_max_emps:
+                print("Too many employees for this day")
+                print(id_and_working_hours)
+                #Delete employees from harmonogram with the highest hours of availability
+                #until we reach the desired number of employees
+                while employes_in_one_day > dep_max_emps:
+                    sorted_employees.pop()
+                    employes_in_one_day -= 1
+
+
+                    id_and_working_hours = {}
+                    for e in sorted_employees:
+                        emp_start_hour = e.get_availability().get(h.start_date).get("startHour")
+                        emp_end_hour = e.get_availability().get(h.start_date).get("endHour")
+                        emp_id = e.get_id()
+                        id_and_working_hours[emp_id] = emp_start_hour, emp_end_hour
+
             print(id_and_working_hours)
 
             print("Sorted employees")
@@ -147,7 +185,6 @@ class Generator:
                 print(e.get_id(), e.get_name(), e.get_hours_of_availability(department))
                 pass
 
-            #TODO: add all worked hours to employee
             for e in h.matched_employees:
                 self.add_worked_hours_to_employee(e, start_hour, end_hour, dep_max_hours)
 
