@@ -1,6 +1,7 @@
 import loader
 import init
 import generator as gen
+import pdfGenerator as pdfGen
 
 def generate(department, priority = 0):
     #priority is used when one employee is available for multiple departments
@@ -87,14 +88,18 @@ def main():
     #         schedules_single_department.append(s)
     
     for s in schedules:
+        data_for_pdf = []
         for h in s["harmonogram"]:
             id_and_working_hours = {}
             id_and_working_hours = h.get_id_and_working_hours()
             for key in id_and_working_hours.keys():
-                print(key, id_and_working_hours[key]) 
+                print(id_and_working_hours) 
+                data_for_pdf.append({"department": s["department"], "employee_id": key, "working_hours": id_and_working_hours[key]})
             for emp in h.matched_employees:
                 print(emp)
                 print(emp.get_id(), emp.get_name(), emp.get_employee_avability_for_department(), emp.get_worked_hours())
+            
+        pdfGen.generate_pdf(data_for_pdf)
 
 if __name__ == "__main__":
     main()
