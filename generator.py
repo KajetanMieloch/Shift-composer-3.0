@@ -115,6 +115,7 @@ class Generator:
         #Get how man hours of work each employee has and then sum them up
         #Also add up hours of work for each employee
         for h in harmonogram:
+            date = h.start_date
             start_hour = h.start_hour
             end_hour = h.end_hour
             dep_max_hours = work_data.get_max_employee_work_hours(department)
@@ -132,26 +133,20 @@ class Generator:
 
             total_worked_hours = 0
             for e in h.matched_employees:
-                total_worked_hours += e.get_worked_hours()
-                print(e.get_id(), e.get_worked_hours())
-           
+                total_worked_hours += e.get_worked_hours()           
             
-            print(start_hour, end_hour, dep_max_hours, dep_max_emps, dep_min_emps)
-
             id_and_working_hours = {}
 
             for e in sorted_employees:
                 emp_start_hour = e.get_availability().get(h.start_date).get("startHour")
                 emp_end_hour = e.get_availability().get(h.start_date).get("endHour")
                 emp_id = e.get_id()
-                id_and_working_hours[emp_id] = emp_start_hour, emp_end_hour
+                id_and_working_hours[emp_id] = date, emp_start_hour, emp_end_hour
 
             employes_in_one_day = 0
 
             for e in id_and_working_hours:
                 employes_in_one_day += 1
-
-            print("Employees in one day: ", employes_in_one_day)
 
             if employes_in_one_day < dep_min_emps:
                 print("Not enough employees for this day")
@@ -176,17 +171,20 @@ class Generator:
                         emp_start_hour = e.get_availability().get(h.start_date).get("startHour")
                         emp_end_hour = e.get_availability().get(h.start_date).get("endHour")
                         emp_id = e.get_id()
-                        id_and_working_hours[emp_id] = emp_start_hour, emp_end_hour
+                        id_and_working_hours[emp_id] = date, emp_start_hour, emp_end_hour
 
             print(id_and_working_hours)
 
-            print("Sorted employees")
-            for e in sorted_employees:
-                print(e.get_id(), e.get_name(), e.get_hours_of_availability(department))
-                pass
 
-            for e in h.matched_employees:
+            for e in sorted_employees:
+                print("All employees")
+                print(e.get_id(), e.get_name(), e.get_hours_of_availability(department))
                 self.add_worked_hours_to_employee(e, start_hour, end_hour, dep_max_hours)
+
+            h.set_matched_employees(sorted_employees)
+            
+            for e in sorted_employees:
+                h.add_id_and_working_hours(e.get_id(), date, e.get_availability().get(h.start_date).get("startHour"), e.get_availability().get(h.start_date).get("endHour"))
 
         return harmonogram
     
@@ -200,6 +198,7 @@ class Harmonogram:
         self.start_hour = 0
         self.end_hour = 0
         self.matched_employees = []
+        self.id_and_working_hours = {}
 
     def set_start_date(self, start_date):
         self.start_date = start_date
@@ -215,6 +214,12 @@ class Harmonogram:
 
     def set_matched_employees(self, matched_employees):
         self.matched_employees = matched_employees
+
+    def add_id_and_working_hours(self, emp_id, date, start_hour, end_hour):
+        self.id_and_working_hours[emp_id] = date, start_hour, end_hour
+
+    def get_id_and_working_hours(self):
+        return self.id_and_working_hours
 
     def get_harmonogram(self):
         return {

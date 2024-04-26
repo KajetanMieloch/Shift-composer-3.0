@@ -69,8 +69,8 @@ def combine(schedules, schedules_to_combine):
 
 def main():
 
-    schedules_single_department = []
-    schedules_multiple_departments = []
+    # schedules_single_department = []
+    # schedules_multiple_departments = []
 
     schedules = []
     schedules.append(generate("HR"))
@@ -80,12 +80,21 @@ def main():
     schedules_to_combine = get_schedule_to_combine(schedules)
     combined = combine(schedules, schedules_to_combine)
     
+    # for s in schedules:
+    #     if s in combined:
+    #         schedules_multiple_departments.append(s)
+    #     else:
+    #         schedules_single_department.append(s)
+    
     for s in schedules:
-        if s in combined:
-            schedules_multiple_departments.append(s)
-        else:
-            schedules_single_department.append(s)
-
+        for h in s["harmonogram"]:
+            id_and_working_hours = {}
+            id_and_working_hours = h.get_id_and_working_hours()
+            for key in id_and_working_hours.keys():
+                print(key, id_and_working_hours[key]) 
+            for emp in h.matched_employees:
+                print(emp)
+                print(emp.get_id(), emp.get_name(), emp.get_employee_avability_for_department(), emp.get_worked_hours())
 
 if __name__ == "__main__":
     main()
