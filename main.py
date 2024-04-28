@@ -86,7 +86,14 @@ def main():
     #         schedules_multiple_departments.append(s)
     #     else:
     #         schedules_single_department.append(s)
-    
+
+    all_employees = []
+    for s in combined:
+        for h in s["harmonogram"]:
+            for emp in h.matched_employees:
+                all_employees.append(emp)
+
+
     for s in schedules:
         data_for_pdf = []
         for h in s["harmonogram"]:
@@ -96,7 +103,8 @@ def main():
             for key in id_and_working_hours.keys():
                 print(id_and_working_hours) 
                 data_for_pdf.append({"department": s["department"], "employee_id": key, "working_hours": id_and_working_hours[key]})
-            for emp in h.matched_employees:
+            for emp in all_employees:
+                print(emp.get_id(), emp.get_name(), emp.get_surname())
                 id_name_surname[emp.get_id()] = emp.get_name() + " " + emp.get_surname()
             
         pdfGen.generate_pdf(data_for_pdf, id_name_surname)

@@ -6,24 +6,31 @@ def generate_pdf(data_for_pdf, id_name_surname):
 
     print(data_for_pdf)
 
+    print("Generating PDF...")
+    print(id_name_surname)
+
     departments = []
     for d in data_for_pdf:
         if d["department"] not in departments:
             departments.append(d["department"])
     
     dates = []
+    dates_hours = {}
     for d in data_for_pdf:
         if d["working_hours"] not in dates:
             dates.append(d["working_hours"][0])
-
+            dates_hours[d["working_hours"][0]] = d["working_hours"][1]
+            dates_hours[d["working_hours"][0]] += "-"
+            dates_hours[d["working_hours"][0]] += d["working_hours"][2]
+            
     ids = []
     for d in data_for_pdf:
         if d["employee_id"] not in ids:
             ids.append(d["employee_id"])
-            print(id_name_surname[d["employee_id"]])
 
     print(departments)
     print(dates)
+    print(dates_hours)
 
     for department in departments:
         x = 1920
@@ -35,7 +42,7 @@ def generate_pdf(data_for_pdf, id_name_surname):
         # Table headers
         header_x = 100
         header_y = 900
-        cell_width = 100
+        cell_width = 150
         cell_height = 50
 
 
@@ -45,7 +52,7 @@ def generate_pdf(data_for_pdf, id_name_surname):
             c.saveState()
             c.translate(header_x + (i * cell_width), header_y)
             c.rotate(45)
-            c.drawString(150, -150, date)
+            c.drawString(180, -180, date)
             c.restoreState()
 
         # Draw ids headers
@@ -62,7 +69,7 @@ def generate_pdf(data_for_pdf, id_name_surname):
                 c.setFillColorRGB(0.8, 0.8, 0.8)  # Set cell color
                 c.rect(cell_x + (j * cell_width), cell_y - (i * cell_height), cell_width, cell_height, fill=True, stroke=False)  # Draw cell
                 c.setFillColorRGB(0, 0, 0)  # Reset fill color
-                c.drawString(cell_x + (j * cell_width) + 10, cell_y - (i * cell_height) + 10, "Cell")  # Add text with padding
+                c.drawString(cell_x + (j * cell_width) + 10, cell_y - (i * cell_height) + 10, dates_hours[date])
                 c.setStrokeColorRGB(0, 0, 0)  # Set line color
                 c.rect(cell_x + (j * cell_width), cell_y - (i * cell_height), cell_width, cell_height, fill=False, stroke=True)  # Draw cell border
 

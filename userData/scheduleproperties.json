@@ -9,7 +9,7 @@
             {
                 "name": "HR",
                 "minEmployees": 1,
-                "maxEmployees": 1,
+                "maxEmployees": 2,
                 "workHours": {
                     "monday": {
                         "from": "None",
