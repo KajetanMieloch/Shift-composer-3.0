@@ -92,14 +92,14 @@ def main():
         for h in s["harmonogram"]:
             id_and_working_hours = {}
             id_and_working_hours = h.get_id_and_working_hours()
+            id_name_surname = {}
             for key in id_and_working_hours.keys():
                 print(id_and_working_hours) 
                 data_for_pdf.append({"department": s["department"], "employee_id": key, "working_hours": id_and_working_hours[key]})
             for emp in h.matched_employees:
-                print(emp)
-                print(emp.get_id(), emp.get_name(), emp.get_employee_avability_for_department(), emp.get_worked_hours())
+                id_name_surname[emp.get_id()] = emp.get_name() + " " + emp.get_surname()
             
-        pdfGen.generate_pdf(data_for_pdf)
+        pdfGen.generate_pdf(data_for_pdf, id_name_surname)
 
 if __name__ == "__main__":
     main()
