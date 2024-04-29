@@ -31,81 +31,67 @@ def generate(department, priority = 0):
     return {"department": department, "harmonogram": optimazed_harmonogram}
 
 
-def get_schedule_to_combine(schedules):
-    """
-    Retrieves the schedules that need to be combined based on the shared employees' availability for multiple departments.
+# def get_schedule_to_combine(schedules):
+#     """
+#     Retrieves the schedules that need to be combined based on the shared employees' availability for multiple departments.
 
-    Args:
-        schedules (list): A list of schedules.
+#     Args:
+#         schedules (list): A list of schedules.
 
-    Returns:
-        list: A list of schedules to be combined, where each schedule is represented as a list of department names.
-    """
-    shared_employees = []
-    schedules_to_combine = []
-    for s in schedules:
-        for h in s["harmonogram"]:
-            for emp in h.matched_employees:
-                if len(emp.get_employee_avability_for_department().keys()) > 1:
-                    if emp not in shared_employees and emp.get_id() not in [e.get_id() for e in shared_employees]:
-                        shared_employees.append(emp)
+#     Returns:
+#         list: A list of schedules to be combined, where each schedule is represented as a list of department names.
+#     """
+#     shared_employees = []
+#     schedules_to_combine = []
+#     for s in schedules:
+#         for h in s["harmonogram"]:
+#             for emp in h.matched_employees:
+#                 if len(emp.get_employee_avability_for_department().keys()) > 1:
+#                     if emp not in shared_employees and emp.get_id() not in [e.get_id() for e in shared_employees]:
+#                         shared_employees.append(emp)
     
-    for emp in shared_employees:
-        schedules_to_combine.append(list(emp.get_employee_avability_for_department().keys()))
+#     for emp in shared_employees:
+#         schedules_to_combine.append(list(emp.get_employee_avability_for_department().keys()))
 
-    return schedules_to_combine
+#     return schedules_to_combine
 
-def combine(schedules, schedules_to_combine):
+# def combine(schedules, schedules_to_combine):
 
-    temp_schedules_to_combine = []
+#     temp_schedules_to_combine = []
 
-    for s in schedules:
-        #ESSA
-        #THAT WAS HARD LINE
-        if s.get("department") in [x for y in schedules_to_combine for x in y]:
-            temp_schedules_to_combine.append(s)
+#     for s in schedules:
+#         #ESSA
+#         #THAT WAS HARD LINE
+#         if s.get("department") in [x for y in schedules_to_combine for x in y]:
+#             temp_schedules_to_combine.append(s)
     
-    return temp_schedules_to_combine
+#     return temp_schedules_to_combine
     
 
+def generate_pdf(schedule):
+    data_for_pdf = []
+    for h in schedule["harmonogram"]:
+        id_and_working_hours = {}
+        id_and_working_hours = h.get_id_and_working_hours()
+        id_name_surname = {}
+        for key in id_and_working_hours.keys():
+            data_for_pdf.append({"department": schedule["department"], "employee_id": key, "working_hours": id_and_working_hours[key]})
+
+    used_ids = [d["employee_id"] for d in data_for_pdf]
+    print(used_ids)
+    id_name_surname = {}
+    
+    for id in used_ids:
+        id_name_surname[id] = employeesAndAvailability.get_employee_obj_by_id(id).get_name() + " " + employeesAndAvailability.get_employee_obj_by_id(id).get_surname()
+
+    pdfGen.generate_pdf(data_for_pdf, id_name_surname)
 
 
 def main():
 
-    # schedules_single_department = []
-    # schedules_multiple_departments = []
-
-    schedules = []
-    schedules.append(generate("HR"))
-    #schedules.append(generate("IT"))
-    #schedules.append(generate("Security"))
-
-    schedules_to_combine = get_schedule_to_combine(schedules)
-    combined = combine(schedules, schedules_to_combine)
-    
-    # for s in schedules:
-    #     if s in combined:
-    #         schedules_multiple_departments.append(s)
-    #     else:
-    #         schedules_single_department.append(s)
-
-    for s in schedules:
-        data_for_pdf = []
-        for h in s["harmonogram"]:
-            id_and_working_hours = {}
-            id_and_working_hours = h.get_id_and_working_hours()
-            id_name_surname = {}
-            for key in id_and_working_hours.keys():
-                data_for_pdf.append({"department": s["department"], "employee_id": key, "working_hours": id_and_working_hours[key]})
-
-        used_ids = [d["employee_id"] for d in data_for_pdf]
-        print(used_ids)
-        id_name_surname = {}
-        
-        for id in used_ids:
-            id_name_surname[id] = employeesAndAvailability.get_employee_obj_by_id(id).get_name() + " " + employeesAndAvailability.get_employee_obj_by_id(id).get_surname()
-
-        pdfGen.generate_pdf(data_for_pdf, id_name_surname)
+    generate_pdf(generate("HR"))
+    generate_pdf(generate("IT"))
+    generate_pdf(generate("Security"))
 
 if __name__ == "__main__":
     main()
