@@ -3,14 +3,16 @@ import init
 import generator as gen
 import pdfGenerator as pdfGen
 
+
+data_loader = loader.Loader()
+employeesAndAvailability = init.EmployeesAndAvailability(data_loader.get_all_employeesloyees_data(), data_loader.get_employees_properties_data(), data_loader.get_schedule_properties_data())
+sheduleProperties = init.ScheduleProperties(data_loader.get_schedule_properties_data())
+
+generator = gen.Generator(employeesAndAvailability, sheduleProperties)
+
 def generate(department, priority = 0):
     #priority is used when one employee is available for multiple departments
     #priority 0 means that none of the departments is prioritized, so employee will be randomly selected, try to avoid this
-    data_loader = loader.Loader()
-    employeesAndAvailability = init.EmployeesAndAvailability(data_loader.get_all_employeesloyees_data(), data_loader.get_employees_properties_data(), data_loader.get_schedule_properties_data())
-    sheduleProperties = init.ScheduleProperties(data_loader.get_schedule_properties_data())
-
-    generator = gen.Generator(employeesAndAvailability, sheduleProperties)
 
     harmonogram = generator.generate_harmonogram_phase_0(sheduleProperties.get_work_hours_for_department(department), department)
     
@@ -87,13 +89,6 @@ def main():
     #     else:
     #         schedules_single_department.append(s)
 
-    all_employees = []
-    for s in combined:
-        for h in s["harmonogram"]:
-            for emp in h.matched_employees:
-                all_employees.append(emp)
-
-
     for s in schedules:
         data_for_pdf = []
         for h in s["harmonogram"]:
@@ -101,12 +96,15 @@ def main():
             id_and_working_hours = h.get_id_and_working_hours()
             id_name_surname = {}
             for key in id_and_working_hours.keys():
-                print(id_and_working_hours) 
                 data_for_pdf.append({"department": s["department"], "employee_id": key, "working_hours": id_and_working_hours[key]})
-            for emp in all_employees:
-                print(emp.get_id(), emp.get_name(), emp.get_surname())
-                id_name_surname[emp.get_id()] = emp.get_name() + " " + emp.get_surname()
-            
+
+        used_ids = [d["employee_id"] for d in data_for_pdf]
+        print(used_ids)
+        id_name_surname = {}
+        
+        for id in used_ids:
+            id_name_surname[id] = employeesAndAvailability.get_employee_obj_by_id(id).get_name() + " " + employeesAndAvailability.get_employee_obj_by_id(id).get_surname()
+
         pdfGen.generate_pdf(data_for_pdf, id_name_surname)
 
 if __name__ == "__main__":

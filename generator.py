@@ -157,8 +157,6 @@ class Generator:
                 #    pass
 
             if employes_in_one_day > dep_max_emps:
-                print("Too many employees for this day")
-                print(id_and_working_hours)
                 #Delete employees from harmonogram with the highest hours of availability
                 #until we reach the desired number of employees
                 while employes_in_one_day > dep_max_emps:
@@ -173,12 +171,9 @@ class Generator:
                         emp_id = e.get_id()
                         id_and_working_hours[emp_id] = date, emp_start_hour, emp_end_hour
 
-            print(id_and_working_hours)
 
 
             for e in sorted_employees:
-                print("All employees")
-                print(e.get_id(), e.get_name(), e.get_hours_of_availability(department))
                 self.add_worked_hours_to_employee(e, start_hour, end_hour, dep_max_hours)
 
             h.set_matched_employees(sorted_employees)
