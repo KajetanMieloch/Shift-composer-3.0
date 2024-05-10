@@ -105,6 +105,32 @@ class Generator:
         employee.add_worked_hours(emp_worked_hours)
 
         #print(employee.get_id(), employee.get_worked_hours())
+    
+    def two_hours_are_overlapping(self, start_hour1, end_hour1, start_hour2, end_hour2):
+        pass
+
+    def add_two_values_as_hours(self, value1, value2):
+        #convert string and int to datetime object
+        if type(value1) == str:
+            value1 = datetime.datetime.strptime(value1, "%H:%M")
+        elif type(value1) == int:
+            try:
+                value1 = datetime.datetime.strptime(str(value1), "%H:%M")
+            except:
+                value1 = str(value1) + ":00"
+                value1 = datetime.datetime.strptime(value1, "%H:%M")
+        if type(value2) == str:
+            value2 = datetime.datetime.strptime(value2, "%H:%M")
+        elif type(value2) == int:
+            try:
+                value2 = datetime.datetime.strptime(str(value2), "%H:%M")
+            except:
+                value2 = str(value2) + ":00"
+                value2 = datetime.datetime.strptime(value2, "%H:%M")
+        
+        endValue = (value1 + datetime.timedelta(hours=value2.hour, minutes=value2.minute)).strftime("%H:%M")
+        return endValue
+
 
     def generate_harmonogram_phase_1(self, harmonogram, department, work_data):
         #print("Phase 1")
@@ -150,7 +176,13 @@ class Generator:
                 if emp_end_hour > harmonogram_end_hour:
                     emp_end_hour = harmonogram_end_hour
                 #Make sure that employee will not work more than dep_max_hours
+                if emp_start_hour == "All":
+                    emp_start_hour = harmonogram_start_hour
+                    emp_end_hour = self.add_two_values_as_hours(harmonogram_start_hour, dep_max_hours)
                 
+                if emp_end_hour == "All":
+                    emp_end_hour = harmonogram_end_hour
+                    emp_start_hour = harmonogram_end_hour - dep_max_hours
 
                 
                 id_and_working_hours[emp_id] = date, emp_start_hour, emp_end_hour
@@ -193,6 +225,14 @@ class Generator:
                         if emp_end_hour > harmonogram_end_hour:
                             emp_end_hour = harmonogram_end_hour
                         #Make sure that employee will not work more than dep_max_hours
+                        if emp_start_hour == "All":
+                            emp_start_hour = harmonogram_start_hour
+                            emp_end_hour = harmonogram_start_hour + dep_max_hours
+                        
+                        if emp_end_hour == "All":
+                            emp_end_hour = harmonogram_end_hour
+                            emp_start_hour = harmonogram_end_hour - dep_max_hours
+                        
                         
 
 
