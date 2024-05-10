@@ -2,8 +2,8 @@ from reportlab.pdfgen import canvas
 
 def generate_pdf(data_for_pdf, id_name_surname):
 
-    print(data_for_pdf)
-    print(id_name_surname)
+    # print(data_for_pdf)
+    # print(id_name_surname)
 
     # Extract unique departments, dates, and employee IDs
     departments = set(d["department"] for d in data_for_pdf)

@@ -116,8 +116,8 @@ class Generator:
         #Also add up hours of work for each employee
         for h in harmonogram:
             date = h.start_date
-            start_hour = h.start_hour
-            end_hour = h.end_hour
+            harmonogram_start_hour = h.start_hour
+            harmonogram_end_hour = h.end_hour
             dep_max_hours = work_data.get_max_employee_work_hours(department)
             dep_max_emps = work_data.get_max_employees_for_department(department)
             dep_min_emps = work_data.get_min_employees_for_department(department)
@@ -140,6 +140,7 @@ class Generator:
             for e in sorted_employees:
                 emp_start_hour = e.get_availability().get(h.start_date).get("startHour")
                 emp_end_hour = e.get_availability().get(h.start_date).get("endHour")
+                print(emp_start_hour, emp_end_hour)
                 emp_id = e.get_id()
                 id_and_working_hours[emp_id] = date, emp_start_hour, emp_end_hour
 
@@ -149,12 +150,13 @@ class Generator:
                 employes_in_one_day += 1
 
             if employes_in_one_day < dep_min_emps:
-                print("Not enough employees for this day")
-                print(id_and_working_hours)
+                # print("Not enough employees for this day")
+                # print(id_and_working_hours)
                 #print("Sorted employees")
                 #for e in sorted_employees:
                 #    print(e.get_id(), e.get_name(), e.get_hours_of_availability(department))
                 #    pass
+                pass
 
             if employes_in_one_day > dep_max_emps:
                 #Delete employees from harmonogram with the highest hours of availability

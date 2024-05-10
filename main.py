@@ -79,7 +79,7 @@ def generate_pdf(schedule):
             data_for_pdf.append({"department": schedule["department"], "employee_id": key, "working_hours": id_and_working_hours[key]})
 
     used_ids = [d["employee_id"] for d in data_for_pdf]
-    print(used_ids)
+    #print(used_ids)
     id_name_surname = {}
     
     for id in used_ids:
