@@ -140,9 +140,22 @@ class Generator:
             for e in sorted_employees:
                 emp_start_hour = e.get_availability().get(h.start_date).get("startHour")
                 emp_end_hour = e.get_availability().get(h.start_date).get("endHour")
-                print(emp_start_hour, emp_end_hour)
                 emp_id = e.get_id()
+
+                #Make sure that employee will not work before the harmonogram start hour
+                if emp_start_hour < harmonogram_start_hour:
+                    emp_start_hour = harmonogram_start_hour
+
+                #Make sure that employee will not work pas the harmonogram end hour
+                if emp_end_hour > harmonogram_end_hour:
+                    emp_end_hour = harmonogram_end_hour
+                #Make sure that employee will not work more than dep_max_hours
+                
+
+                
                 id_and_working_hours[emp_id] = date, emp_start_hour, emp_end_hour
+
+
 
             employes_in_one_day = 0
 
@@ -171,17 +184,30 @@ class Generator:
                         emp_start_hour = e.get_availability().get(h.start_date).get("startHour")
                         emp_end_hour = e.get_availability().get(h.start_date).get("endHour")
                         emp_id = e.get_id()
+
+                        #Make sure that employee will not work before the harmonogram start hour
+                        if emp_start_hour < harmonogram_start_hour:
+                            emp_start_hour = harmonogram_start_hour
+
+                        #Make sure that employee will not work pas the harmonogram end hour
+                        if emp_end_hour > harmonogram_end_hour:
+                            emp_end_hour = harmonogram_end_hour
+                        #Make sure that employee will not work more than dep_max_hours
+                        
+
+
+
                         id_and_working_hours[emp_id] = date, emp_start_hour, emp_end_hour
 
 
 
             for e in sorted_employees:
-                self.add_worked_hours_to_employee(e, start_hour, end_hour, dep_max_hours)
+                self.add_worked_hours_to_employee(e, harmonogram_start_hour, harmonogram_end_hour, dep_max_hours)
 
             h.set_matched_employees(sorted_employees)
             
             for e in sorted_employees:
-                h.add_id_and_working_hours(e.get_id(), date, e.get_availability().get(h.start_date).get("startHour"), e.get_availability().get(h.start_date).get("endHour"))
+                h.add_id_and_working_hours(e.get_id(), id_and_working_hours.get(e.get_id())[0], id_and_working_hours.get(e.get_id())[1], id_and_working_hours.get(e.get_id())[2])
 
         return harmonogram
     
