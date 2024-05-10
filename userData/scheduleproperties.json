@@ -8,8 +8,8 @@
         "departments": [
             {
                 "name": "HR",
-                "minEmployees": 1,
-                "maxEmployees": 1,
+                "minEmployees": 2,
+                "maxEmployees": 3,
                 "workHours": {
                     "monday": {
                         "from": "None",
@@ -20,8 +20,8 @@
                         "to": "02:00"
                     },
                     "wednesday": {
-                        "from": "09:00",
-                        "to": "15:00"
+                        "from": "10:00",
+                        "to": "18:00"
                     },
                     "thursday": {
                         "from": "None",

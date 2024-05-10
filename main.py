@@ -72,6 +72,7 @@ def generate_pdf(schedule):
     data_for_pdf = []
     for h in schedule["harmonogram"]:
         id_and_working_hours = {}
+        #BUG CHANGE id_and_working_hours to data from phase 2 (harmonogram)
         id_and_working_hours = h.get_id_and_working_hours()
         id_name_surname = {}
         for key in id_and_working_hours.keys():
