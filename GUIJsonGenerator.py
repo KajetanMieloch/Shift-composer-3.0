@@ -39,9 +39,11 @@ class JSONGenerator(QWidget):
         # Second tab for employee properties
         self.employee_properties_tab = QWidget()
         self.employee_properties_layout = QVBoxLayout(self.employee_properties_tab)
-        self.sample_text_button = QPushButton("Sample Text")
-        self.employee_properties_layout.addWidget(self.sample_text_button)
+        self.employee_properties_layout.addWidget(QLabel("Select Employee ID:"))
+        self.employee_id_list = QListWidget()
+        self.employee_properties_layout.addWidget(self.employee_id_list)
         self.tab_widget.addTab(self.employee_properties_tab, "Employee Properties")
+        self.tab_widget.currentChanged.connect(self.updateEmployeeIds)  # Connect tab change event to update employee IDs
 
         self.layout.addWidget(self.tab_widget)
 
@@ -51,6 +53,7 @@ class JSONGenerator(QWidget):
 
         self.employees = []
         self.loadEmployees()  # Load employees from file when the application starts
+        self.updateEmployeeIds()  # Update employee IDs when the application starts
 
     def addEmployee(self):
         name = self.name_input.text().strip()
@@ -80,6 +83,13 @@ class JSONGenerator(QWidget):
                 self.employees = data.get("employees", [])
         except FileNotFoundError:
             print("No data file found.")
+
+    def updateEmployeeIds(self):
+        # Clear previous IDs
+        self.employee_id_list.clear()
+        # Add available employee IDs
+        for employee in self.employees:
+            self.employee_id_list.addItem(str(employee["id"]))
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
