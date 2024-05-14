@@ -15,6 +15,14 @@
             "department": [
                 "IT"
             ]
+        },
+        {
+            "id": 3,
+            "name": "Kajetan",
+            "surname": "Moloszek",
+            "department": [
+                "IT"
+            ]
         }
     ]
 }
