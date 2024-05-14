@@ -1,6 +1,6 @@
 import sys
 import json
-from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QLabel, QLineEdit, QListWidget, QPushButton, QTabWidget, QAbstractItemView
+from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QLabel, QLineEdit, QListWidget, QPushButton, QTabWidget, QAbstractItemView, QCalendarWidget
 
 class JSONGenerator(QWidget):
     def __init__(self):
@@ -42,6 +42,14 @@ class JSONGenerator(QWidget):
         self.employee_properties_layout.addWidget(QLabel("Select Employee ID:"))
         self.employee_id_list = QListWidget()
         self.employee_properties_layout.addWidget(self.employee_id_list)
+        self.start_date_calendar = QCalendarWidget()
+        self.start_date_calendar.setGridVisible(True)
+        self.employee_properties_layout.addWidget(QLabel("Start Date:"))
+        self.employee_properties_layout.addWidget(self.start_date_calendar)
+        self.end_date_calendar = QCalendarWidget()
+        self.end_date_calendar.setGridVisible(True)
+        self.employee_properties_layout.addWidget(QLabel("End Date:"))
+        self.employee_properties_layout.addWidget(self.end_date_calendar)
         self.tab_widget.addTab(self.employee_properties_tab, "Employee Properties")
         self.tab_widget.currentChanged.connect(self.updateEmployeeIds)  # Connect tab change event to update employee IDs
 
@@ -70,7 +78,13 @@ class JSONGenerator(QWidget):
             self.surname_input.clear()
 
     def generateJSON(self):
-        data = {"employees": self.employees}
+        start_date = self.start_date_calendar.selectedDate().toString("yyyy-MM-dd")
+        end_date = self.end_date_calendar.selectedDate().toString("yyyy-MM-dd")
+        data = {
+            "employees": self.employees,
+            "start_date": start_date,
+            "end_date": end_date
+        }
         json_data = json.dumps(data, indent=4)
         with open("allemployees.json", "w") as json_file:
             json_file.write(json_data)
