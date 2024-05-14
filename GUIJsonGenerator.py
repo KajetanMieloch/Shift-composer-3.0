@@ -41,13 +41,14 @@ class JSONGenerator(QWidget):
         self.show()
 
         self.employees = []
+        self.loadEmployees()  # Load employees from file when the application starts
 
     def addEmployee(self):
         name = self.name_input.text().strip()
         surname = self.surname_input.text().strip()
         if name and surname:  # Only add employee if name and surname are provided
             employee = {
-                "id": len(self.employees) + 1,  # Incremented ID
+                "id": len(self.employees) + 1 if self.employees else 1,  # Incremented ID if employees exist
                 "name": name,
                 "surname": surname,
                 "department": [item.text() for item in self.department_input.selectedItems()]
@@ -62,6 +63,14 @@ class JSONGenerator(QWidget):
         with open("allemployees.json", "w") as json_file:
             json_file.write(json_data)
         print("JSON data saved to allemployees.json")
+
+    def loadEmployees(self):
+        try:
+            with open("allemployees.json", "r") as json_file:
+                data = json.load(json_file)
+                self.employees = data.get("employees", [])
+        except FileNotFoundError:
+            print("No data file found.")
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

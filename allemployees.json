@@ -2,8 +2,16 @@
     "employees": [
         {
             "id": 1,
-            "name": "Kjetan",
-            "surname": "Moloch",
+            "name": "Kajetanus",
+            "surname": "9",
+            "department": [
+                "HR"
+            ]
+        },
+        {
+            "id": 2,
+            "name": "Kajetsan",
+            "surname": "Miellllloch",
             "department": [
                 "IT"
             ]
