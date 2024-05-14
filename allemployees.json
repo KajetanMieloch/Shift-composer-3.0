@@ -2,10 +2,10 @@
     "employees": [
         {
             "id": 1,
-            "name": "Kajetan",
-            "surname": "Mieloch",
+            "name": "Kjetan",
+            "surname": "Moloch",
             "department": [
-                "HR"
+                "IT"
             ]
         }
     ]
