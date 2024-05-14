@@ -42,14 +42,30 @@ class JSONGenerator(QWidget):
         self.employee_properties_layout.addWidget(QLabel("Select Employee ID:"))
         self.employee_id_list = QListWidget()
         self.employee_properties_layout.addWidget(self.employee_id_list)
-        self.start_date_calendar = QCalendarWidget()
-        self.start_date_calendar.setGridVisible(True)
-        self.employee_properties_layout.addWidget(QLabel("Start Date:"))
-        self.employee_properties_layout.addWidget(self.start_date_calendar)
-        self.end_date_calendar = QCalendarWidget()
-        self.end_date_calendar.setGridVisible(True)
-        self.employee_properties_layout.addWidget(QLabel("End Date:"))
-        self.employee_properties_layout.addWidget(self.end_date_calendar)
+
+        self.date_calendar = QCalendarWidget()
+        self.date_calendar.setGridVisible(True)
+        self.employee_properties_layout.addWidget(QLabel("Select Date:"))
+        self.employee_properties_layout.addWidget(self.date_calendar)
+
+        self.start_hour_input = QLineEdit()
+        self.start_hour_input.setPlaceholderText("Start Hour (HH:MM)")
+        self.employee_properties_layout.addWidget(QLabel("Start Hour:"))
+        self.employee_properties_layout.addWidget(self.start_hour_input)
+
+        self.end_hour_input = QLineEdit()
+        self.end_hour_input.setPlaceholderText("End Hour (HH:MM)")
+        self.employee_properties_layout.addWidget(QLabel("End Hour:"))
+        self.employee_properties_layout.addWidget(self.end_hour_input)
+
+        self.add_availability_button = QPushButton("Add Availability")
+        self.add_availability_button.clicked.connect(self.addAvailability)
+        self.employee_properties_layout.addWidget(self.add_availability_button)
+
+        self.generate_properties_button = QPushButton("Generate JSON")
+        self.generate_properties_button.clicked.connect(self.generatePropertiesJSON)
+        self.employee_properties_layout.addWidget(self.generate_properties_button)
+
         self.tab_widget.addTab(self.employee_properties_tab, "Employee Properties")
         self.tab_widget.currentChanged.connect(self.updateEmployeeIds)  # Connect tab change event to update employee IDs
 
@@ -89,6 +105,39 @@ class JSONGenerator(QWidget):
         with open("allemployees.json", "w") as json_file:
             json_file.write(json_data)
         print("JSON data saved to allemployees.json")
+
+    def addAvailability(self):
+        employee_id = int(self.employee_id_list.currentItem().text())
+        date = self.date_calendar.selectedDate().toString("yyyy-MM-dd")
+        start_hour = self.start_hour_input.text()
+        end_hour = self.end_hour_input.text()
+        for employee in self.employees:
+            if employee["id"] == employee_id:
+                if "availability" not in employee:
+                    employee["availability"] = {}
+                if date in employee["availability"]:
+                    employee["availability"][date]["startHour"] = start_hour if start_hour else "All"
+                    employee["availability"][date]["endHour"] = end_hour if end_hour else "All"
+                else:
+                    employee["availability"][date] = {
+                        "startHour": start_hour if start_hour else "All",
+                        "endHour": end_hour if end_hour else "All"
+                    }
+
+    def generatePropertiesJSON(self):
+        availability_data = []
+        for employee in self.employees:
+            if "availability" in employee:
+                availability = {
+                    "id": employee["id"],
+                    "availability": employee["availability"]
+                }
+                availability_data.append(availability)
+
+        json_data = json.dumps({"employeesAva": availability_data}, indent=4)
+        with open("employeesproperties.json", "w") as json_file:
+            json_file.write(json_data)
+        print("JSON data saved to employeesproperties.json")
 
     def loadEmployees(self):
         try:

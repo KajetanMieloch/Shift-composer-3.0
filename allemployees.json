@@ -2,35 +2,21 @@
     "employees": [
         {
             "id": 1,
-            "name": "Kajetanus",
-            "surname": "9",
-            "department": [
+            "name": "Kajetan",
+            "surname": "Mielocj",
+            "departments": [
                 "HR"
             ]
         },
         {
             "id": 2,
-            "name": "Kajetsan",
-            "surname": "Miellllloch",
-            "department": [
-                "IT"
-            ]
-        },
-        {
-            "id": 3,
-            "name": "Kajetan",
-            "surname": "Moloszek",
-            "department": [
-                "IT"
-            ]
-        },
-        {
-            "id": 4,
-            "name": "Kajetan",
-            "surname": "Mieloch",
+            "name": "Karol",
+            "surname": "Makarowski",
             "departments": [
-                "Security"
+                "HR"
             ]
         }
-    ]
+    ],
+    "start_date": "2024-05-14",
+    "end_date": "2024-05-14"
 }
