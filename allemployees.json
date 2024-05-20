@@ -15,8 +15,14 @@
             "departments": [
                 "HR"
             ]
+        },
+        {
+            "id": 3,
+            "name": "S\u0142awomir",
+            "surname": "Memcen",
+            "departments": [
+                "Security"
+            ]
         }
-    ],
-    "start_date": "2024-05-14",
-    "end_date": "2024-05-14"
+    ]
 }

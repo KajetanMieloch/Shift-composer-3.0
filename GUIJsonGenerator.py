@@ -1,6 +1,7 @@
 import sys
 import json
-from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QLabel, QLineEdit, QListWidget, QPushButton, QTabWidget, QAbstractItemView, QCalendarWidget
+from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QLabel, QLineEdit, QListWidget, QPushButton, QTabWidget, QAbstractItemView, QCalendarWidget, QTableWidget, QTableWidgetItem, QHBoxLayout
+from PyQt5.QtCore import QDate
 
 
 class JSONGenerator(QWidget):
@@ -17,6 +18,9 @@ class JSONGenerator(QWidget):
 
         # Second tab for employee properties
         self.createEmployeePropertiesTab()
+
+        # Third tab for viewing availability
+        self.createAvailabilityTab()
 
         self.layout.addWidget(self.tab_widget)
         self.setLayout(self.layout)
@@ -84,6 +88,20 @@ class JSONGenerator(QWidget):
         self.tab_widget.addTab(self.employee_properties_tab, "Employee Properties")
         self.tab_widget.currentChanged.connect(self.updateEmployeeIds)
 
+    def createAvailabilityTab(self):
+        self.availability_tab = QWidget()
+        self.availability_layout = QVBoxLayout(self.availability_tab)
+        
+        self.availability_calendar = QCalendarWidget()
+        self.availability_calendar.setGridVisible(True)
+        self.availability_calendar.selectionChanged.connect(self.updateAvailabilityTable)
+        self.availability_layout.addWidget(self.availability_calendar)
+        
+        self.availability_table = QTableWidget()
+        self.availability_layout.addWidget(self.availability_table)
+        
+        self.tab_widget.addTab(self.availability_tab, "View Availability")
+
     def addInputField(self, layout, label_text, widget):
         layout.addWidget(QLabel(label_text))
         layout.addWidget(widget)
@@ -112,7 +130,7 @@ class JSONGenerator(QWidget):
         current_item = self.employee_id_list.currentItem()
         if not current_item:
             return
-        employee_id = int(current_item.text())
+        employee_id = int(current_item.data(0).split()[0])  # Extract ID from string
         date = self.date_calendar.selectedDate().toString("yyyy-MM-dd")
         start_hour = self.start_hour_input.text() or "All"
         end_hour = self.end_hour_input.text() or "All"
@@ -146,7 +164,26 @@ class JSONGenerator(QWidget):
     def updateEmployeeIds(self):
         self.employee_id_list.clear()
         for employee in self.employees:
-            self.employee_id_list.addItem(str(employee["id"]))
+            departments = ", ".join(employee["departments"])
+            employee_info = f'{employee["id"]} ({employee["name"]} {employee["surname"]} [{departments}])'
+            self.employee_id_list.addItem(employee_info)
+
+    def updateAvailabilityTable(self):
+        selected_date = self.availability_calendar.selectedDate().toString("yyyy-MM-dd")
+        self.availability_table.clear()
+        self.availability_table.setRowCount(0)
+        self.availability_table.setColumnCount(3)
+        self.availability_table.setHorizontalHeaderLabels(["Employee ID", "Name", "Availability"])
+        
+        row = 0
+        for employee in self.employees:
+            if "availability" in employee and selected_date in employee["availability"]:
+                self.availability_table.insertRow(row)
+                self.availability_table.setItem(row, 0, QTableWidgetItem(str(employee["id"])))
+                self.availability_table.setItem(row, 1, QTableWidgetItem(f'{employee["name"]} {employee["surname"]}'))
+                availability = employee["availability"][selected_date]
+                self.availability_table.setItem(row, 2, QTableWidgetItem(f'{availability["startHour"]} - {availability["endHour"]}'))
+                row += 1
 
 
 if __name__ == '__main__':
