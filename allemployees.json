@@ -6,7 +6,17 @@
             "surname": "Mielocj",
             "departments": [
                 "HR"
-            ]
+            ],
+            "availability": {
+                "2024-05-01": {
+                    "startHour": "10:00",
+                    "endHour": "12:00"
+                },
+                "2024-05-02": {
+                    "startHour": "10:00",
+                    "endHour": "12:00"
+                }
+            }
         },
         {
             "id": 2,
@@ -14,7 +24,17 @@
             "surname": "Makarowski",
             "departments": [
                 "HR"
-            ]
+            ],
+            "availability": {
+                "2024-05-01": {
+                    "startHour": "10:00",
+                    "endHour": "12:00"
+                },
+                "2024-05-02": {
+                    "startHour": "10:00",
+                    "endHour": "12:00"
+                }
+            }
         },
         {
             "id": 3,
@@ -22,7 +42,13 @@
             "surname": "Memcen",
             "departments": [
                 "Security"
-            ]
+            ],
+            "availability": {
+                "2024-05-01": {
+                    "startHour": "10:00",
+                    "endHour": "12:00"
+                }
+            }
         }
     ]
 }

@@ -1,7 +1,6 @@
 import sys
 import json
-from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QLabel, QLineEdit, QListWidget, QPushButton, QTabWidget, QAbstractItemView, QCalendarWidget, QTableWidget, QTableWidgetItem, QHBoxLayout
-from PyQt5.QtCore import QDate
+from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QLabel, QLineEdit, QListWidget, QPushButton, QTabWidget, QAbstractItemView, QCalendarWidget, QTableWidget, QTableWidgetItem
 
 
 class JSONGenerator(QWidget):
@@ -91,15 +90,15 @@ class JSONGenerator(QWidget):
     def createAvailabilityTab(self):
         self.availability_tab = QWidget()
         self.availability_layout = QVBoxLayout(self.availability_tab)
-        
+
         self.availability_calendar = QCalendarWidget()
         self.availability_calendar.setGridVisible(True)
         self.availability_calendar.selectionChanged.connect(self.updateAvailabilityTable)
         self.availability_layout.addWidget(self.availability_calendar)
-        
+
         self.availability_table = QTableWidget()
         self.availability_layout.addWidget(self.availability_table)
-        
+
         self.tab_widget.addTab(self.availability_tab, "View Availability")
 
     def addInputField(self, layout, label_text, widget):
@@ -119,6 +118,7 @@ class JSONGenerator(QWidget):
             self.employees.append(employee)
             self.name_input.clear()
             self.surname_input.clear()
+            self.generateJSON()  # Save changes immediately
 
     def generateJSON(self):
         data = {"employees": self.employees}
@@ -134,15 +134,16 @@ class JSONGenerator(QWidget):
         date = self.date_calendar.selectedDate().toString("yyyy-MM-dd")
         start_hour = self.start_hour_input.text() or "All"
         end_hour = self.end_hour_input.text() or "All"
-        for employee in self.employees:
-            if employee["id"] == employee_id:
-                if "availability" not in employee:
-                    employee["availability"] = {}
-                employee["availability"][date] = {
-                    "startHour": start_hour,
-                    "endHour": end_hour
-                }
-                break
+
+        employee = next((emp for emp in self.employees if emp["id"] == employee_id), None)
+        if employee:
+            if "availability" not in employee:
+                employee["availability"] = {}
+            employee["availability"][date] = {
+                "startHour": start_hour,
+                "endHour": end_hour
+            }
+            self.generateJSON()  # Save changes immediately
 
     def generatePropertiesJSON(self):
         availability_data = [
@@ -174,7 +175,7 @@ class JSONGenerator(QWidget):
         self.availability_table.setRowCount(0)
         self.availability_table.setColumnCount(3)
         self.availability_table.setHorizontalHeaderLabels(["Employee ID", "Name", "Availability"])
-        
+
         row = 0
         for employee in self.employees:
             if "availability" in employee and selected_date in employee["availability"]:
