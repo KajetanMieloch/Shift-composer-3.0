@@ -8,10 +8,6 @@
                 "HR"
             ],
             "availability": {
-                "2024-05-01": {
-                    "startHour": "10:00",
-                    "endHour": "12:00"
-                },
                 "2024-05-02": {
                     "startHour": "10:00",
                     "endHour": "12:00"
@@ -26,10 +22,6 @@
                 "HR"
             ],
             "availability": {
-                "2024-05-01": {
-                    "startHour": "10:00",
-                    "endHour": "12:00"
-                },
                 "2024-05-02": {
                     "startHour": "10:00",
                     "endHour": "12:00"
