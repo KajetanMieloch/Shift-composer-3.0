@@ -3,12 +3,13 @@ import json
 from PyQt5.QtWidgets import (QApplication, QWidget, QVBoxLayout, QLabel, QLineEdit, QListWidget, QPushButton, QTabWidget, 
                              QAbstractItemView, QCalendarWidget, QTableWidget, QTableWidgetItem, QHBoxLayout, QCheckBox,
                              QMessageBox, QSizePolicy, QInputDialog)
-from PyQt5.QtCore import QDate
+from PyQt5.QtCore import QDate, Qt
 
 
 class JSONGenerator(QWidget):
     def __init__(self):
         super().__init__()
+        self.selected_dates = []  # List to track selected dates
         self.initUI()
 
     def initUI(self):
@@ -72,7 +73,7 @@ class JSONGenerator(QWidget):
 
         self.date_calendar = QCalendarWidget()
         self.date_calendar.setGridVisible(True)
-
+        self.date_calendar.selectionChanged.connect(self.toggleDateSelection)
         self.addInputField(self.employee_properties_layout, "Select Date:", self.date_calendar)
 
         self.start_hour_input = QLineEdit()
@@ -138,8 +139,8 @@ class JSONGenerator(QWidget):
 
     def setButtonStyle(self, button):
         button.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        button.setMinimumHeight(50)  # Increase button height
-        button.setMinimumWidth(200)  # Increase button width
+        button.setMinimumHeight(30)  # Decrease button height
+        button.setMinimumWidth(100)  # Decrease button width
 
     def addEmployee(self):
         name = self.name_input.text().strip()
@@ -167,7 +168,7 @@ class JSONGenerator(QWidget):
         if not current_item:
             return
         employee_id = int(current_item.data(0).split()[0])  # Extract ID from string
-        selected_dates = self.date_calendar.selectedDates()  # Get selected dates
+        selected_dates = self.selected_dates  # Use the custom list of selected dates
         start_hour = self.start_hour_input.text() or "All"
         end_hour = self.end_hour_input.text() or "All"
 
@@ -184,25 +185,7 @@ class JSONGenerator(QWidget):
             self.generateJSON()  # Save changes immediately
 
     def addSameHoursForSelectedDays(self):
-        current_item = self.employee_id_list.currentItem()
-        if not current_item:
-            return
-        employee_id = int(current_item.data(0).split()[0])  # Extract ID from string
-        selected_dates = self.date_calendar.selectedDates()  # Get selected dates
-        start_hour = self.start_hour_input.text() or "All"
-        end_hour = self.end_hour_input.text() or "All"
-
-        employee = next((emp for emp in self.employees if emp["id"] == employee_id), None)
-        if employee:
-            if "availability" not in employee:
-                employee["availability"] = {}
-            for date in selected_dates:
-                date_str = date.toString("yyyy-MM-dd")
-                employee["availability"][date_str] = {
-                    "startHour": start_hour,
-                    "endHour": end_hour
-                }
-            self.generateJSON()  # Save changes immediately
+        self.addAvailability()
 
     def selectAllDays(self):
         self.selectDates(QDate.currentDate(), 30, lambda date: True)
@@ -214,10 +197,25 @@ class JSONGenerator(QWidget):
         self.selectDates(QDate.currentDate(), 30, lambda date: date.dayOfWeek() >= 6)
 
     def selectDates(self, start_date, days, condition):
+        self.selected_dates.clear()
         for i in range(days):
             date = start_date.addDays(i)
             if condition(date):
-                self.date_calendar.setSelectedDate(date)
+                self.selected_dates.append(date)
+        self.updateSelectedDates()
+
+    def updateSelectedDates(self):
+        self.date_calendar.setSelectedDate(QDate())  # Clear current selection
+        for date in self.selected_dates:
+            self.date_calendar.setSelectedDate(date)
+
+    def toggleDateSelection(self):
+        selected_date = self.date_calendar.selectedDate()
+        if selected_date in self.selected_dates:
+            self.selected_dates.remove(selected_date)
+        else:
+            self.selected_dates.append(selected_date)
+        self.updateSelectedDates()
 
     def generatePropertiesJSON(self):
         availability_data = [
@@ -257,19 +255,24 @@ class JSONGenerator(QWidget):
                 self.availability_table.setItem(row, 2, QTableWidgetItem(f'{availability["startHour"]} - {availability["endHour"]}'))
 
                 actions_layout = QHBoxLayout()
+                actions_layout.setContentsMargins(0, 0, 0, 0)
+                actions_layout.setSpacing(0)
+                actions_layout.setAlignment(Qt.AlignCenter)
+                actions_layout.setSizeConstraint(QHBoxLayout.SetMinimumSize)
                 delete_button = QPushButton("Delete")
+                #delete_button.setMinimumSize(100, 30)  # Set a minimum size for the buttons
+                delete_button.setMaximumSize(100, 30)  # Set a maximum size for the buttons
                 delete_button.clicked.connect(lambda _, e=employee, d=selected_date: self.deleteAvailability(e, d))
-                self.setButtonStyle(delete_button)
                 actions_layout.addWidget(delete_button)
 
                 delete_all_button = QPushButton("Delete All")
+                delete_all_button.setMaximumSize(100, 30)
                 delete_all_button.clicked.connect(lambda _, e=employee: self.deleteAllAvailability(e))
-                self.setButtonStyle(delete_all_button)
                 actions_layout.addWidget(delete_all_button)
 
                 update_button = QPushButton("Update")
+                update_button.setMaximumSize(100, 30)
                 update_button.clicked.connect(lambda _, e=employee, d=selected_date: self.updateAvailability(e, d))
-                self.setButtonStyle(update_button)
                 actions_layout.addWidget(update_button)
 
                 actions_widget = QWidget()

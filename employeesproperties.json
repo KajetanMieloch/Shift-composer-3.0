@@ -2,24 +2,11 @@
     "employeesAva": [
         {
             "id": 1,
-            "availability": {
-                "2024-05-01": {
-                    "startHour": "10:00",
-                    "endHour": "12:00"
-                },
-                "2024-05-02": {
-                    "startHour": "10:00",
-                    "endHour": "12:00"
-                }
-            }
+            "availability": {}
         },
         {
             "id": 2,
             "availability": {
-                "2024-05-01": {
-                    "startHour": "10:00",
-                    "endHour": "12:00"
-                },
                 "2024-05-02": {
                     "startHour": "10:00",
                     "endHour": "12:00"
@@ -28,10 +15,14 @@
         },
         {
             "id": 3,
+            "availability": {}
+        },
+        {
+            "id": 4,
             "availability": {
                 "2024-05-01": {
-                    "startHour": "10:00",
-                    "endHour": "12:00"
+                    "startHour": "12:00",
+                    "endHour": "15:00"
                 }
             }
         }

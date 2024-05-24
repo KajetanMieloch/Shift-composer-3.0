@@ -7,12 +7,7 @@
             "departments": [
                 "HR"
             ],
-            "availability": {
-                "2024-05-02": {
-                    "startHour": "10:00",
-                    "endHour": "12:00"
-                }
-            }
+            "availability": {}
         },
         {
             "id": 2,
@@ -21,12 +16,7 @@
             "departments": [
                 "HR"
             ],
-            "availability": {
-                "2024-05-02": {
-                    "startHour": "10:00",
-                    "endHour": "12:00"
-                }
-            }
+            "availability": {}
         },
         {
             "id": 3,
@@ -35,12 +25,16 @@
             "departments": [
                 "Security"
             ],
-            "availability": {
-                "2024-05-01": {
-                    "startHour": "10:00",
-                    "endHour": "12:00"
-                }
-            }
+            "availability": {}
+        },
+        {
+            "id": 4,
+            "name": "Dawid",
+            "surname": "S",
+            "departments": [
+                "IT"
+            ],
+            "availability": {}
         }
     ]
 }
