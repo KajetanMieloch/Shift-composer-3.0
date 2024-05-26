@@ -1,0 +1,45 @@
+{
+    "scheduleProperties": {
+        "date": {
+            "from": "2024-05-24",
+            "to": "2024-05-31"
+        },
+        "departments": [
+            {
+                "name": "IT",
+                "minEmployees": 1,
+                "maxEmployees": 3,
+                "workHours": {
+                    "monday": {
+                        "from": "None",
+                        "to": "None"
+                    },
+                    "tuesday": {
+                        "from": "None",
+                        "to": "None"
+                    },
+                    "wednesday": {
+                        "from": "None",
+                        "to": "None"
+                    },
+                    "thursday": {
+                        "from": "None",
+                        "to": "None"
+                    },
+                    "friday": {
+                        "from": "None",
+                        "to": "None"
+                    },
+                    "saturday": {
+                        "from": "None",
+                        "to": "None"
+                    },
+                    "sunday": {
+                        "from": "None",
+                        "to": "None"
+                    }
+                }
+            }
+        ]
+    }
+}

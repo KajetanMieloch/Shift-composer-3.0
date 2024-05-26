@@ -2,9 +2,8 @@ import sys
 import json
 from PyQt5.QtWidgets import (QApplication, QWidget, QVBoxLayout, QLabel, QLineEdit, QListWidget, QPushButton, QTabWidget, 
                              QAbstractItemView, QCalendarWidget, QTableWidget, QTableWidgetItem, QHBoxLayout, QCheckBox,
-                             QMessageBox, QSizePolicy, QInputDialog)
+                             QMessageBox, QSizePolicy, QInputDialog, QDateEdit)
 from PyQt5.QtCore import QDate, Qt
-
 
 class JSONGenerator(QWidget):
     def __init__(self):
@@ -25,6 +24,12 @@ class JSONGenerator(QWidget):
 
         # Third tab for viewing availability
         self.createAvailabilityTab()
+
+        # Fourth tab for generating schedule properties
+        self.createSchedulePropertiesTab()
+
+        # Fifth tab for populating schedule
+        self.createPopulateScheduleTab()
 
         self.layout.addWidget(self.tab_widget)
         self.setLayout(self.layout)
@@ -132,6 +137,65 @@ class JSONGenerator(QWidget):
         self.availability_layout.addWidget(self.availability_table)
 
         self.tab_widget.addTab(self.availability_tab, "View Availability")
+
+    def createSchedulePropertiesTab(self):
+        self.schedule_properties_tab = QWidget()
+        self.schedule_properties_layout = QVBoxLayout(self.schedule_properties_tab)
+
+        self.schedule_properties_layout.addWidget(QLabel("Select Schedule Date Range:"))
+
+        self.schedule_start_date = QDateEdit()
+        self.schedule_start_date.setCalendarPopup(True)
+        self.schedule_start_date.setDate(QDate.currentDate())
+        self.addInputField(self.schedule_properties_layout, "Start Date:", self.schedule_start_date)
+
+        self.schedule_end_date = QDateEdit()
+        self.schedule_end_date.setCalendarPopup(True)
+        self.schedule_end_date.setDate(QDate.currentDate().addDays(7))
+        self.addInputField(self.schedule_properties_layout, "End Date:", self.schedule_end_date)
+
+        self.schedule_departments_list = QListWidget()
+        self.schedule_departments_list.setSelectionMode(QAbstractItemView.MultiSelection)
+        self.schedule_departments_list.addItems(["HR", "IT", "Security"])
+        self.addInputField(self.schedule_properties_layout, "Departments:", self.schedule_departments_list)
+
+        self.generate_schedule_button = QPushButton("Generate Schedule JSON")
+        self.generate_schedule_button.clicked.connect(self.generateScheduleJSON)
+        self.setButtonStyle(self.generate_schedule_button)
+        self.schedule_properties_layout.addWidget(self.generate_schedule_button)
+
+        self.tab_widget.addTab(self.schedule_properties_tab, "Generate Schedule")
+
+    def createPopulateScheduleTab(self):
+        self.populate_schedule_tab = QWidget()
+        self.populate_schedule_layout = QVBoxLayout(self.populate_schedule_tab)
+
+        self.populate_schedule_layout.addWidget(QLabel("Populate Schedule Work Hours"))
+
+        self.populate_departments_list = QListWidget()
+        self.populate_departments_list.setSelectionMode(QAbstractItemView.MultiSelection)
+        self.populate_departments_list.addItems(["HR", "IT", "Security"])
+        self.addInputField(self.populate_schedule_layout, "Departments:", self.populate_departments_list)
+
+        self.days_of_week = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
+        self.work_hours_inputs = {}
+        for day in self.days_of_week:
+            self.work_hours_inputs[day] = {}
+            start_hour_input = QLineEdit()
+            start_hour_input.setPlaceholderText("Start Hour (HH:MM) or None")
+            end_hour_input = QLineEdit()
+            end_hour_input.setPlaceholderText("End Hour (HH:MM) or None")
+            self.work_hours_inputs[day]["start"] = start_hour_input
+            self.work_hours_inputs[day]["end"] = end_hour_input
+            self.addInputField(self.populate_schedule_layout, f"{day.capitalize()} Start Hour:", start_hour_input)
+            self.addInputField(self.populate_schedule_layout, f"{day.capitalize()} End Hour:", end_hour_input)
+
+        self.populate_schedule_button = QPushButton("Populate Schedule JSON")
+        self.populate_schedule_button.clicked.connect(self.populateScheduleJSON)
+        self.setButtonStyle(self.populate_schedule_button)
+        self.populate_schedule_layout.addWidget(self.populate_schedule_button)
+
+        self.tab_widget.addTab(self.populate_schedule_tab, "Populate Schedule")
 
     def addInputField(self, layout, label_text, widget):
         layout.addWidget(QLabel(label_text))
@@ -260,7 +324,6 @@ class JSONGenerator(QWidget):
                 actions_layout.setAlignment(Qt.AlignCenter)
                 actions_layout.setSizeConstraint(QHBoxLayout.SetMinimumSize)
                 delete_button = QPushButton("Delete")
-                #delete_button.setMinimumSize(100, 30)  # Set a minimum size for the buttons
                 delete_button.setMaximumSize(100, 30)  # Set a maximum size for the buttons
                 delete_button.clicked.connect(lambda _, e=employee, d=selected_date: self.deleteAvailability(e, d))
                 actions_layout.addWidget(delete_button)
@@ -309,6 +372,51 @@ class JSONGenerator(QWidget):
                 self.generateJSON()
                 self.updateAvailabilityTable()
 
+    def generateScheduleJSON(self):
+        start_date = self.schedule_start_date.date().toString("yyyy-MM-dd")
+        end_date = self.schedule_end_date.date().toString("yyyy-MM-dd")
+        departments = [item.text() for item in self.schedule_departments_list.selectedItems()]
+
+        schedule_properties = {
+            "scheduleProperties": {
+                "date": {
+                    "from": start_date,
+                    "to": end_date
+                },
+                "departments": [
+                    {
+                        "name": department,
+                        "minEmployees": 1,  # Example values
+                        "maxEmployees": 3,  # Example values
+                        "workHours": {day: {"from": "None", "to": "None"} for day in self.days_of_week}
+                    }
+                    for department in departments
+                ]
+            }
+        }
+
+        with open("scheduleproperties.json", "w") as json_file:
+            json.dump(schedule_properties, json_file, indent=4)
+        print("JSON data saved to scheduleproperties.json")
+
+    def populateScheduleJSON(self):
+        try:
+            with open("scheduleproperties.json", "r") as json_file:
+                schedule_properties = json.load(json_file)
+        except FileNotFoundError:
+            print("No scheduleproperties.json file found.")
+            return
+
+        for department in schedule_properties["scheduleProperties"]["departments"]:
+            if department["name"] in [item.text() for item in self.populate_departments_list.selectedItems()]:
+                for day in self.days_of_week:
+                    start_hour = self.work_hours_inputs[day]["start"].text() or "None"
+                    end_hour = self.work_hours_inputs[day]["end"].text() or "None"
+                    department["workHours"][day] = {"from": start_hour, "to": end_hour}
+
+        with open("scheduleproperties.json", "w") as json_file:
+            json.dump(schedule_properties, json_file, indent=4)
+        print("JSON data updated in scheduleproperties.json")
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
