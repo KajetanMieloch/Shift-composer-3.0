@@ -4,7 +4,7 @@ from init import *
 
 class Loader:
     def __init__(self):
-        self.folder_path = 'userData'
+        self.folder_path = ''
         self.file_names = ['allemployees.json', 'employeesproperties.json', 'scheduleproperties.json']
         self.data = {}
 

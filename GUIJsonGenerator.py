@@ -47,7 +47,7 @@ class JSONGenerator(QWidget):
         self.tab_widget.addTab(self.generate_schedule_tab, "Generate Schedule")
 
     def generateSchedule(self):
-        subprocess.Popen(['python', './main.py'])
+        subprocess.Popen(['python', 'main.py'])
 
     def createEmployeeTab(self):
         print("Creating Employee Tab")
