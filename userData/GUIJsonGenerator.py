@@ -3,6 +3,8 @@ from PyQt5.QtWidgets import (QApplication, QWidget, QVBoxLayout, QLabel, QLineEd
                              QPushButton, QSizePolicy, QTabWidget, QAbstractItemView, QCalendarWidget, 
                              QDateEdit, QTableWidget, QTableWidgetItem)
 from PyQt5.QtCore import QDate, Qt
+import sys
+import subprocess
 
 class JSONGenerator(QWidget):
     def __init__(self):
@@ -16,6 +18,7 @@ class JSONGenerator(QWidget):
         self.layout = QVBoxLayout()
         self.tab_widget = QTabWidget()
 
+        self.generateScheduleTab()  # Ensure this method is called to add the tab
         self.createEmployeeTab()
         self.createEmployeePropertiesTab()
         self.createAvailabilityTab()
@@ -30,6 +33,21 @@ class JSONGenerator(QWidget):
         self.employees = []
         self.loadEmployees()
         self.updateEmployeeIds()
+    
+    def generateScheduleTab(self):
+        print("Creating Generate Schedule Tab")
+        self.generate_schedule_tab = QWidget()
+        self.generate_schedule_layout = QVBoxLayout(self.generate_schedule_tab)
+
+        self.generate_schedule_button = QPushButton("Generate Schedule")
+        self.generate_schedule_button.clicked.connect(self.generateSchedule)
+        self.setButtonStyle(self.generate_schedule_button)
+        self.generate_schedule_layout.addWidget(self.generate_schedule_button)
+
+        self.tab_widget.addTab(self.generate_schedule_tab, "Generate Schedule")
+
+    def generateSchedule(self):
+        subprocess.Popen(['python', './main.py'])
 
     def createEmployeeTab(self):
         print("Creating Employee Tab")
@@ -375,7 +393,6 @@ class JSONGenerator(QWidget):
             self.employees = []
 
 if __name__ == '__main__':
-    import sys
     app = QApplication(sys.argv)
     ex = JSONGenerator()
     sys.exit(app.exec_())
